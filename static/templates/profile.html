@@ -1,0 +1,52 @@
+{% include 'components/navbar.html' %}
+This is Profile Template
+<br>
+<a href="/edit_profile">Update</a><br>
+{{profile_data.resturant_name}}
+<br>
+<a href={{url}}>your link</a>
+<br>
+<a href=/{{profile_data.logo_image}}><img src=/{{profile_data.logo_image}} width="60%"></a>
+<br>
+<h4>Ordeer Request List</h4>
+{% for temp2 in order %}
+    {% for temp3 in temp2.food_list %}
+        <span>--></span>{{temp3.name}}
+        {{temp3.price}}
+    {% endfor %}
+    <br>
+{% endfor %}
+<h4>Ordeer Accepted List</h4>
+{% for temp2 in order_accepted %}
+    {% for temp3 in temp2.food_list %}
+        <span>--></span>{{temp3.name}}
+        {{temp3.price}}
+{% endfor %}
+<br>
+{% endfor %}
+<h4>Catalog</h4><hr>
+<a href="/insert_food">Insert Food</a><br>
+{% for temp in profile_data.food_list %}
+<a href=/{{temp.food_image}}><img src=/{{temp.food_image}} height="30%"></a>
+<p>Food Title: {{temp.food_title}}</p>
+<p>Price: {{temp.food_price}} TK only</p>
+<form action="/update_food" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{temp.food_title}}">
+    <input type="hidden" name="form_type" value="identifire">
+    <button type="submit">Update Food</button>
+</form>
+<form action="/delete_food" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{temp.food_title}}">
+    <input type="hidden" name="form_type" value="identifire">
+    <button type="submit" onclick="return confirmDelete('{{temp.food_title}}')">Delete Food</button>
+</form>
+<br>
+{% endfor %}
+<script>
+    function confirmDelete(food_title) {
+      return confirm("Are you sure you want to delete "+food_title+" item?");
+    }
+</script>
+    

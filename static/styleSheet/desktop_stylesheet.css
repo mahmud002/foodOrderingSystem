@@ -1,0 +1,160 @@
+body{
+    font-family: 'Roboto Mono', monospace;
+}
+.grid_container{
+    display: grid;
+    grid-template-columns:  10% 80% 10%;
+    background-color: white;
+    font-size: 15px;
+    
+    
+}
+.grid_container>div{
+    margin:2px;   
+}
+.header{
+    grid-column: 1 / 4;
+    font-size: 20px;
+    font-family: 'Roboto Mono', monospace;
+    color: #191970;
+}
+.left_screen{
+    grid-column: 1 / 2;
+    font-size: 15px;
+    background-color: rgb(201, 100, 100);
+}
+.body_screen{
+    grid-column: 2 / 3;
+    font-size: 15px;
+    background-color: white;
+}
+.right_screen{
+    grid-column: 3 / 4;
+    font-size: 15px;
+    background-color: rgb(180, 96, 96);
+}
+.footer{
+    grid-column: 1 / 4;
+    font-size: 15px;
+    background-color: white;
+}
+
+ul{
+    list-style-type: none;
+}
+li{
+    display: inline;
+}
+#nav{
+    position: absolute;
+    background-color: white ;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+
+}
+li a{
+    padding: 8px;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: #191970;
+    /* font-family: 'Roboto', sans-serif; */
+    
+}
+li a:hover {
+    background-color: #32cd32;
+    border-radius: 10px;
+    color: white;
+  }
+.active{
+    background-color: #32cd32; 
+    border-radius: 10px;
+    color: white;
+}
+
+
+
+.nav_grid_container{
+    display: grid;
+    grid-template-columns:  30% 70%;
+}
+.nav_grid_container1{
+    grid-column: 1 / 2;
+    font-size: 40px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.nav_grid_container2{
+    grid-column: 2 / 3;
+    
+
+}
+
+
+  img{
+    width: 40px;
+    height: 30px;
+  }
+ 
+
+
+          /* Food card container */
+.item {
+    display: inline-block;
+    width: 300px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+  }
+  
+  /* Food image */
+  .item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Food title */
+  .item .food-title {
+    font-size: 20px;
+    margin: 10px;
+  }
+  
+  /* Food description */
+  .item .food-description {
+    font-size: 14px;
+    margin: 0 10px 10px 10px;
+  }
+  
+  /* Food price */
+  .item .food-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
+    color:rgb(189, 33, 33);
+  }
+  
+  /* Add to cart button */
+  .item .add-to-cart {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #32cd32;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Hover effects */
+  .item:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+  .item:hover .add-to-cart {
+    background-color: #0fd40f;
+  }
+  
+ 

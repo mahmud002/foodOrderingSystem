@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <style>
+            input[type="checkbox"][name="food_image-clear"], label[for="food_image-clear_id"]{
+    display: none;
+}
+
+        </style>
+    </head>
+    <body>
+        <h3>Blog Form<h3>
+            <hr>
+            <form action="" method="post" enctype="multipart/form-data">
+               
+                {% csrf_token %}
+                {{form.as_p}}
+               
+                <input type="submit">
+            </form>
+    </body>
+
+</html>
