@@ -1,160 +1,127 @@
-body{
-    font-family: 'Roboto Mono', monospace;
-}
+
 .grid_container{
-    display: grid;
-    grid-template-columns:  10% 80% 10%;
-    background-color: white;
-    font-size: 15px;
-    
-    
+  display: grid;
+  grid-template-columns:  10% 80% 10%;
+  background-color: white;
+  font-size: 15px;
+  margin-top: 150px;
+  
 }
 .grid_container>div{
-    margin:2px;   
+  margin:2px;   
 }
 .header{
-    grid-column: 1 / 4;
-    font-size: 20px;
-    font-family: 'Roboto Mono', monospace;
-    color: #191970;
+  grid-column: 1 / 4;
+  font-size: 20px;
+  
+  color: #191970;
 }
 .left_screen{
-    grid-column: 1 / 2;
-    font-size: 15px;
-    background-color: rgb(201, 100, 100);
+  grid-column: 1 / 2;
+  font-size: 15px;
+  background-color: rgb(201, 100, 100);
 }
 .body_screen{
-    grid-column: 2 / 3;
-    font-size: 15px;
-    background-color: white;
+  grid-column: 2 / 3;
+  font-size: 15px;
+  background-color: white;
 }
 .right_screen{
-    grid-column: 3 / 4;
-    font-size: 15px;
-    background-color: rgb(180, 96, 96);
+  grid-column: 3 / 4;
+  font-size: 15px;
+  background-color: rgb(180, 96, 96);
 }
 .footer{
-    grid-column: 1 / 4;
-    font-size: 15px;
-    background-color: white;
+  grid-column: 1 / 4;
+  font-size: 15px;
+  background-color: white;
 }
 
-ul{
-    list-style-type: none;
-}
-li{
-    display: inline;
-}
-#nav{
-    position: absolute;
-    background-color: white ;
-    width: 100%;
-    text-align: center;
-    margin: auto;
-
-}
-li a{
-    padding: 8px;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    color: #191970;
-    /* font-family: 'Roboto', sans-serif; */
-    
-}
-li a:hover {
-    background-color: #32cd32;
-    border-radius: 10px;
-    color: white;
-  }
-.active{
-    background-color: #32cd32; 
-    border-radius: 10px;
-    color: white;
-}
-
-
-
-.nav_grid_container{
-    display: grid;
-    grid-template-columns:  30% 70%;
-}
-.nav_grid_container1{
-    grid-column: 1 / 2;
-    font-size: 40px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-.nav_grid_container2{
-    grid-column: 2 / 3;
-    
-
-}
-
-
-  img{
-    width: 40px;
-    height: 30px;
-  }
- 
-
-
-          /* Food card container */
-.item {
-    display: inline-block;
-    width: 300px;
-    margin: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-  }
+/* Profile Page */
+.profile_grid_container{
+  display: grid;
+  grid-template-columns:  15% 35% 35% 15%;
+  background-color: white;
+  font-size: 15px;
+  margin-top: 150px;
   
-  /* Food image */
-  .item img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
+}
+.profile_header{
+  grid-column: 1 / 5;
+  font-size: 20px;
   
-  /* Food title */
-  .item .food-title {
-    font-size: 20px;
-    margin: 10px;
-  }
-  
-  /* Food description */
-  .item .food-description {
-    font-size: 14px;
-    margin: 0 10px 10px 10px;
-  }
-  
-  /* Food price */
-  .item .food-price {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 10px;
-    color:rgb(189, 33, 33);
-  }
-  
-  /* Add to cart button */
-  .item .add-to-cart {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #32cd32;
-    border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  /* Hover effects */
-  .item:hover {
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
-    transform: translateY(-2px);
-  }
-  .item:hover .add-to-cart {
-    background-color: #0fd40f;
-  }
-  
- 
+  color: #191970;
+}
+.profile_left_screen{
+  grid-column: 1 / 2;
+  font-size: 15px;
+  background-color: rgb(201, 100, 100);
+}
+.profile_body_content1{
+  grid-column: 2 / 3;
+  font-size: 15px;
+  background-color: white;
+}
+.profile_body_content2{
+  grid-column: 3 / 4;
+  font-size: 15px;
+  background-color: white;
+}
+.profile_right_screen{
+  grid-column: 4 / 5;
+  font-size: 15px;
+  background-color: rgb(180, 96, 96);
+}
+.profile_food{
+  grid-column: 2 / 4;
+  font-size: 15px;
+  background-color: white;
+
+}
+
+.logo_image {
+  width: 150px; /* Set the desired width */
+  height: 150px; /* Set the desired height */
+  border-radius: 50%; /* Make it circular by setting the border-radius to 50% */
+  overflow: hidden; /* Hide any image overflow beyond the circular boundary */
+}
+
+.form-container {
+  display: flex; /* Use flexbox to arrange buttons in a row */
+  justify-content: center; /* Center-align buttons horizontally */
+}
+
+/* Style for the individual forms */
+.form {
+  margin-right: 10px; /* Add spacing between forms (adjust as needed) */
+}
+
+/* Style for the submit buttons */
+.submit-button {
+  padding: 10px 10px; /* Adjust padding as needed */
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Text color */
+  border-radius: 5px; /* Remove button borders */
+  cursor: pointer; /* Change cursor on hover */
+  border: none;
+}
+.submit-button_delete {
+  padding: 10px 10px; /* Adjust padding as needed */
+  background-color: #ff6666; /* Button background color */
+  color: #fff; /* Text color */
+  border-radius: 5px; /* Remove button borders */
+  border: none;
+  cursor: pointer; /* Change cursor on hover */
+}
+/* Profile Page END */
+.navbar {
+  position:static;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  color: white;
+  font-size: 20px;
+  font-family: 'Roboto Mono', monospace;
+}
+

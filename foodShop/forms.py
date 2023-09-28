@@ -11,7 +11,7 @@ class FoodForm(forms.ModelForm):
     clear_image_url = forms.BooleanField(required=False)
     class Meta:
         model = Food
-        fields=  ['index', 'food_title','food_price','food_image', 'clear_image_url']
+        fields=  ['index', 'food_title','food_price','category','description','food_image', 'clear_image_url']
         widgets = {
             'index': forms.HiddenInput()
         }

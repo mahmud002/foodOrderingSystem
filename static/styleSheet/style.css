@@ -1,0 +1,234 @@
+*:focus{
+  outline: none;
+  }
+
+button a {
+background-color: transparent;
+box-shadow: none;
+border: none;
+}
+body {
+    margin: 0;
+      font-family: 'Roboto Mono', monospace;
+  }
+  
+  .topnav {
+    overflow: hidden;
+    /* padding-top:20px; */
+    background:transparent;
+  }
+  
+  .topnav a {
+    text-decoration: none;
+    color:black;
+    font-size: 1.2rem;
+    font-weight: bold;
+  
+    float: left;
+    display: block;
+    padding: 15px 20px;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .topnav a:not(:first-child ){
+    margin-top: 0px;
+  }
+
+  .topnav a:hover:not(:first-child ):not(:last-child) {
+      border-bottom: 3px solid #ff6666;
+      color:#ff6666;
+      border-radius: 7px;
+      transition: all .2s ease;
+  }
+  
+  .active{
+    border-bottom: 3px solid #ff6666;
+    border-radius: 7px;
+    transition: all 0.2s ease;
+  }
+  
+  .topnav .icon {
+    display: none;
+  }
+  
+ 
+    .hamburger {
+      padding-right: 20px;
+      cursor: pointer;
+    }
+  
+    .hamburger .line {
+      display: block;
+      width: 20px;
+      height: 3px;
+      margin-bottom: 10px;
+      background-color: black;
+    }
+ 
+
+
+
+
+
+
+    /* Reset some default styles */
+/* body, h1, p {
+  margin: 0;
+  padding: 0;
+} */
+
+/* Style the card container with shadow */
+.food-card {
+  max-width: 250px;
+  max-height: 295px;
+  min-width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  /* margin: 5px auto; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-right: 20px;
+}
+
+/* Style the food product image */
+.food-card img {
+  max-width: 100%;
+  border-radius: 5px;
+}
+
+/* Style the food name */
+.food-name {
+  font-size: 24px;
+  margin-top: 5px;
+
+}
+
+/* Style the product description */
+
+
+/* Style the price */
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #FF5733;
+  margin-top: -10px;
+}
+
+/* Style the buy button */
+.add-to-cart {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #FF5733;
+  color:white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 35px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #FF874E;
+}
+
+#quantity{
+  width: 55%;
+  padding: 6px 20px;
+  margin: -8px 5px;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 4px;
+  float: right
+}
+#quantity_title{
+  margin-top: -10px ;
+  padding: 6px 10px;
+  float: left
+}
+span {
+  display: block;
+  overflow: hidden;
+  padding: 0px 4px 0px 6px;
+}
+
+
+
+.card-list {
+  display: flex;
+  overflow-x: auto;
+  justify-content:left;
+  padding-left: 5%;
+  min-height: 350px;
+
+} 
+.content_container{
+  margin-bottom: 35px;
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 30%;
+  right: 20px;
+  background-color: #FF5733;
+  border-radius: 50%;
+  width:fit-content;
+  min-width:60px;
+  min-height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.fab> button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+.submit-order{
+  color: white;
+  margin-top: 5px;
+  padding: 2px;
+  background-color: #FF5733;
+  border: 2px solid #FF5733;
+  border-radius: 5px;
+  
+}
+.popup {
+  display: none;
+  position: absolute;
+  bottom: 80px;
+  right: 25px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width:fit-content;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.category_heading{
+  margin-left: 10%;
+}
+
+
+/* ProFile */
+
+
+/* Profile End */

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/static/styleSheet/style.css"> -->
+    <link rel="stylesheet" href="/static/styleSheet/mobile_stylesheet.css" media="screen and (max-width: 768px)">
+    <link rel="stylesheet" href="/static/styleSheet/desktop_stylesheet.css" media="screen and (min-width: 800px)">  
+    <link rel="stylesheet" href="/static/styleSheet/style.css">
+
+
+</head>
+<body>
+
+    <div class="food-card">
+        
+        <a href=/{{temp.food_image}}><img src=/{{temp.food_image}} alt="Food Product Image" height="150px" width="100%"></a>
+        <h3 class="food-name">{{temp.food_title}}</h3>
+        <p class="description">{{temp.category}}</p>
+        <p class="price">${{temp.food_price}}</p>
+        
+        
+        <div class="form-container">
+          <form class="form" action="/update_food" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{temp.food_title}}">
+              <input type="hidden" name="form_type" value="identifire">
+              <button type="submit" class="submit-button">Update Food</button>
+          </form>
+  
+          <form class="form" action="/delete_food" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="product_id" value="{{temp.food_title}}">
+              <input type="hidden" name="form_type" value="identifire">
+              <button type="submit" class="submit-button_delete" onclick="return confirmDelete('{{temp.food_title}}')">Delete Food</button>
+          </form>
+      </div>
+      </div>
+</body>
+</html>
+

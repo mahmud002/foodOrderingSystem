@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  
+    <!-- <link rel="stylesheet" href="/static/styleSheet/style.css"> -->
+    <link rel="stylesheet" href="/static/styleSheet/mobile_stylesheet.css" media="screen and (max-width: 768px)">
+    <link rel="stylesheet" href="/static/styleSheet/desktop_stylesheet.css" media="screen and (min-width: 800px)">  
+    <link rel="stylesheet" href="/static/styleSheet/style.css">
+
+<style>
+
+
+ 
+
+</style>
+</head>
+<body>
+
+<div class="topnav" id="myTopnav">
+    <a href="#home" class="logo"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Khadim" height="50px"></a>
+
+   
+   
+    <a class="{% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+
+   
+
+
+    
+
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                 <div class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+              </div>
+  </a>
+  </div>
+
+
+
+
+  <script>
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      
+      if (x.className === "topnav") {
+        x.className = "responsive";
+        console.log("wORKING");
+      } else {
+        x.className = "topnav";
+      }
+    }
+    function changeClassName() {
+        const element = document.getElementById('myTopnav'); // Replace with your element's ID or use other selectors
+        if (window.matchMedia('(min-width: 720px)').matches) {
+            element.className = 'topnav'; // Change to your desired class name
+        } 
+    }
+    
+    // Initial call to set the class name based on the initial screen size
+    changeClassName();
+    
+    // Add an event listener to check for screen size changes
+    window.addEventListener('resize', changeClassName);
+    </script>
+    
+</body>
+</html>
+

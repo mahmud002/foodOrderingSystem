@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/static/styleSheet/style.css"> -->
+    <link rel="stylesheet" href="/static/styleSheet/mobile_stylesheet.css" media="screen and (max-width: 768px)">
+    <link rel="stylesheet" href="/static/styleSheet/desktop_stylesheet.css" media="screen and (min-width: 800px)">  
+    <link rel="stylesheet" href="/static/styleSheet/style.css">
+
+
+</head>
+<body>
+
+    <div class="food-card">
+        <a href=/{{temp.food_image}}><img src=/{{temp.food_image}} alt="Food Product Image" height="150px" width="100%"></a>
+        <h3 class="food-name">{{temp.food_title}}</h3>
+        <!-- <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac justo eget est bibendum laoreet.</p> -->
+        <p class="price">${{temp.food_price}}</p>
+        <label for="quantity" id="quantity_title">Quantity:</label>
+        <span></span><input type="number" id="quantity" value="1"></span>
+        <input type="hidden" name="owner" value={{key}}>
+        <button class="add-to-cart">Add to cart</button>
+      </div>
+</body>
+</html>
+

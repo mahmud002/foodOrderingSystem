@@ -1,31 +1,107 @@
-{% include 'components/navbar.html' %}
-This is Catalog Template
-<br>
-<!-- shopping cart -->
-<div class="cart">
-    <h2>Shopping cart</h2>
-    <ul class="cart-items">
-      <!-- cart items will be dynamically added here -->
-    </ul>
-    <p>Total: $0</p>
-    <input type="text" placeholder="Enter Your Phone Number" id="customer_phone_number" required>
-    <button class="submit-order" onclick="return confirmDelete()">Submit order</button>
-</div>
-{% for temp in food_list %}
-<div class="item">
-    <a href=/{{temp.food_image}}><img src=/{{temp.food_image}} alt="Delicious food"></a>
-    <h3 class="food-title">{{temp.food_title}}</h3>
-    <p><span>Price: </span><span class="price">${{temp.food_price}}</span></p>
-    <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" value="1">
-    <input type="hidden" name="owner" value={{key}}>
-    <button class="add-to-cart">Add to cart</button>
-  </div>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/styleSheet/mobile_stylesheet.css" media="screen and (max-width: 768px)">
+  <link rel="stylesheet" href="/static/styleSheet/desktop_stylesheet.css" media="screen and (min-width: 800px)">  
+  <link rel="stylesheet" href="/static/styleSheet/style.css">
+</head>
+  <!-- header -->
+  <!-- Company Name -->
   
 
+</html>
+
+{% include 'components/navbar_catelog.html' %}
+
+<br>
+<h2>{{resturantName}}</h3>
+<a href="/check_order_status"></a>
+<!-- shopping cart -->
+
+<div id="fab" class="fab">
+  <button id="fab-button">0</button>
+  <div class="popup" id="popup">
+      <span id="close-button" class="close">x</span>
+      <div class="cart">
+        <h2>Shopping cart</h2>
+        <ul class="cart-items">
+          <!-- cart items will be dynamically added here -->
+        </ul>
+        <p>Total: $0</p>
+        <input type="text" placeholder="Enter Your Phone Number" id="customer_phone_number" required>
+        <input type="text" placeholder="set a Order Password" id="Order_password" required>
+        <input type="hidden" id="key" value={{key}}>
+        <input type="hidden" id="table_no" value={{table_no}}>
+        <button class="submit-order" onclick="return confirmDelete()">Submit order</button>
+      </div>
+  </div>
+</div>
+<div class="content_container">
+{% for category, food_items in food_items_by_category.items %}
+
+<div class="food-category" id="category1">
+  <h2 class="category_heading">{{ category }}</h2>
+<div class="card-list">
+
+  {% for temp in food_items %}
+  <!-- <div class="item">
+      <a href=/{{temp.food_image}}><img src=/{{temp.food_image}} alt="Delicious food"></a>
+      <h3 class="food-title">{{temp.food_title}}</h3>
+      <p><span>Price: </span><span class="price">${{temp.food_price}}</span></p>
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" value="1">
+      <input type="hidden" name="owner" value={{key}}>
+      <button class="add-to-cart">Add to cart</button>
+    </div> -->
+    {% include 'components/catalog_food_card.html' %}
+
+  
+  {% endfor %}
+  </div>
 {% endfor %}
-
-
+  </div>
+</div>
+  <div class="banner">
+    This is your  banner Add.
+</div>
+  <script >
+    document.addEventListener("DOMContentLoaded", function () {
+        const fabButton = document.getElementById("fab-button");
+        const popup = document.getElementById("popup");
+        const closeButton = document.getElementById("close-button");
+        let isPopupOpen = false;
+    
+        fabButton.addEventListener("click", function () {
+            if (isPopupOpen) {
+                popup.style.display = "none";
+                fabButton.innerHTML = "0"; // Change the button symbol to "+"
+                updateCartDOM();
+              } else {
+                popup.style.display = "block";
+                fabButton.innerHTML = "x"; // Change the button symbol to "x"
+            }
+            isPopupOpen = !isPopupOpen; // Toggle the state of the popup
+        });
+    
+        closeButton.addEventListener("click", function () {
+            popup.style.display = "none";
+            fabButton.innerHTML = "0"; // Reset the button symbol to "+"
+            isPopupOpen = false;
+        });
+    });
+    
+    
+    </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      $(document).ready(function () {
+          // Enable horizontal scrolling for all card lists
+          $('.card-list').each(function () {
+              $(this).css('overflow-x', 'auto');
+          });
+      });
+  </script>
 <script>
     // set up variables
 const cartItems = [];
@@ -40,10 +116,10 @@ addToCartButtons.forEach(button => {
     const foodItemName = button.parentElement.querySelector('h3').textContent;
     const foodItemPrice = parseFloat(button.parentElement.querySelector('.price').textContent.replace('$', ''));
     const quantity = parseInt(button.parentElement.querySelector('input[type="number"]').value);
-    const key = button.parentElement.querySelector('input[name="owner"]').value;
+    
     
     // add item to cart
-    cartItems.push({ name: foodItemName, price: foodItemPrice, quantity, key:key });
+    cartItems.push({ name: foodItemName, price: foodItemPrice, quantity});
 
     // update cart DOM
     updateCartDOM();
@@ -58,10 +134,23 @@ addToCartButtons.forEach(button => {
 // });
 const submitOrderButton = document.querySelector('.submit-order');
 submitOrderButton.addEventListener('click', () => {
+  
+
+  
   // Get the CSRF token from the cookie
   phone_number=document.getElementById('customer_phone_number').value;
-  const csrftoken = getCookie('csrftoken');
+  Order_password=document.getElementById('Order_password').value;
+  const key = document.getElementById("key").value;
+  const table_no = document.getElementById("table_no").value;
   
+
+  const csrftoken = getCookie('csrftoken');
+  const data={'phone':phone_number,
+        'order_password':Order_password,
+        'owner':key,
+        'table_no':table_no,
+        'cartItems':cartItems}
+   
   // Send cartItems array to server to process order
   fetch('/submit_order', {
     method: 'POST',
@@ -69,14 +158,11 @@ submitOrderButton.addEventListener('click', () => {
       'Content-Type': 'application/x-www-form-urlencoded',
       'X-CSRFToken': csrftoken,
     },
-    body: 'cartItems=' + encodeURIComponent(JSON.stringify(cartItems)),
+    body: 'data=' + encodeURIComponent(JSON.stringify(data)),
     
   })
 
 
-
-  console.log(cartItems);
-  console.log(phone_number);
 // Check if Geolocation API is available
 if ('geolocation' in navigator) {
   // Request user's permission to access location
@@ -115,7 +201,7 @@ function updateCartDOM() {
   // get cart DOM elements
   const cartItemsList = document.querySelector('.cart-items');
   const totalDOM = document.querySelector('.cart p');
-
+  const fabButton = document.getElementById("fab-button");
   // clear cart items list
   cartItemsList.innerHTML = '';
 
@@ -128,12 +214,16 @@ function updateCartDOM() {
 
   // calculate and update total
   total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  fabButton.innerHTML=total;
+  
+  var width = document.getElementById("fab").offsetWidth;
+  document.getElementById("fab").style.height = width + "px";
   totalDOM.textContent = `Total: $${total}`;
 }
 
 </script>
 <script>
   function confirmDelete() {
-    return confirm("Are you sure you want to delete item?");
+    return confirm("Are you sure you want to order item?");
   }
 </script>

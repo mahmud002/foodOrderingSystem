@@ -37,43 +37,42 @@
 
          </div>
       </div>
-      <h4>Catalog</h4><hr>
-<br>
-<div class="content_container">
-   {% for category, food_items in food_items_by_category.items %}
-   
-   <div class="food-category" id="category1">
-     <h2 class="category_heading">{{ category }}</h2>
-   <div class="card-list">
-   
-     {% for temp in food_items %}
-     <!-- <div class="item">
-         <a href=/{{temp.food_image}}><img src=/{{temp.food_image}} alt="Delicious food"></a>
-         <h3 class="food-title">{{temp.food_title}}</h3>
-         <p><span>Price: </span><span class="price">${{temp.food_price}}</span></p>
-         <label for="quantity">Quantity:</label>
-         <input type="number" id="quantity" value="1">
-         <input type="hidden" name="owner" value={{key}}>
-         <button class="add-to-cart">Add to cart</button>
-       </div> -->
-       {% include 'components/profile_food_card.html' %}
-   
-     
-     {% endfor %}
-     </div>
-   {% endfor %}
-     </div>
-   </div>
-<script>
-    function confirmDelete(food_title) {
-      return confirm("Are you sure you want to delete "+food_title+" item?");
-    }
-</script>
    </body>
 </html>
 
 
 
+
+<br>
+
+
+
+
+<br>
+
+<br>
+<h4>Ordeer Request List</h4>
+{% for temp2 in order %}
+    {% for temp3 in temp2.food_list %}
+        <span>--></span>{{temp3.name}}
+        {{temp3.price}}
+    {% endfor %}
+    <form action="/accept_order" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="order_id" value={{temp2.id}}>
+        <button type="submit">Accept</button>
+    </form>
+    <br>
+{% endfor %}
+<h4>Ordeer Accepted List</h4>
+{% for temp2 in order_accepted %}
+    {% for temp3 in temp2.food_list %}
+        <span>--></span>{{temp3.name}}
+        {{temp3.price}}
+{% endfor %}
+<br>
+
+{% endfor %}
 
 
     
