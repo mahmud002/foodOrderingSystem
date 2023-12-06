@@ -1,9 +1,79 @@
-<h3>Blog Form<h3>
-<hr>
-<form action="" method="post" enctype="multipart/form-data">
-   
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/styleSheet/form_designe.css">
+    </head>
+    <body>
+<form name="FoodForm" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form.as_p}}
-   
-    <input type="submit">
-</form> 
+
+    <!-- Food Title -->
+    <div class="form-group">
+        <label for="{{ form.food_title.id_for_label }}">Food Title:</label>
+        {{ form.food_title }}
+    </div>
+
+    <!-- Food Price -->
+    <div class="form-group">
+        <label for="{{ form.food_price.id_for_label }}">Food Price:</label>
+        {{ form.food_price }}
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+        <label for="{{ form.category.id_for_label }}">Food Category:</label>
+        <select name="{{ form.category.name }}" id="food-category-select">
+            <option value=""></option>
+            <option id="food-category-selected" value="new">[Type a custom value]</option>
+            {% for category in unique_categories %}
+            <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="{{ form.new_category.name }}" id="new-category-input" style="display:none;">
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+        <label for="{{ form.description.id_for_label }}">Description:</label>
+        {{ form.description }}
+    </div>
+
+    <!-- Food Image -->
+    <div class="form-group">
+        <label for="{{ form.food_image.id_for_label }}">Food Image:</label>
+        {{ form.food_image }}
+    </div>
+
+    <!-- Clear Image URL -->
+    <div class="form-group">
+        <label for="{{ form.clear_image_url.id_for_label }}">Clear Image URL:</label>
+        {{ form.clear_image_url }}
+    </div>
+
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var foodCategorySelect = document.getElementById('food-category-select');
+    var foodCategorySelected = document.getElementById('food-category-selected');
+    var newCategoryInput = document.getElementById('new-category-input');
+
+    foodCategorySelect.addEventListener('change', function () {
+        if (foodCategorySelect.value === 'new') {
+            newCategoryInput.style.display = 'inline-block';
+            newCategoryInput.removeAttribute('disabled');
+            newCategoryInput.focus();
+        } else {
+            newCategoryInput.style.display = 'none';
+            newCategoryInput.setAttribute('disabled', 'disabled');
+        }
+    });
+
+    newCategoryInput.addEventListener('input', function () {
+        // Set the selected value in the dropdown to the value entered in the input field
+        foodCategorySelected.value = newCategoryInput.value;
+        console.log(foodCategorySelected.value+" and "+newCategoryInput.value);
+    });
+});
+</script>
+    </body>

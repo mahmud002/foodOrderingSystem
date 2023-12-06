@@ -1,0 +1,61 @@
+
+/* Style the form container */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+/* Style form group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Style labels */
+label {
+    display: block;
+    font-weight: bold;
+}
+
+/* Style text inputs and select */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style file input */
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Style submit button */
+button[type="submit"],
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style checkbox label */
+#id_clear_image_url {
+    margin-left: 5px;
+}
+
+/* Style the "Type a custom value" option */
+#food-category-selected {
+    font-style: italic;
+}
+
+/* Style the input field for custom category */
+#new-category-input {
+    display: none;
+}

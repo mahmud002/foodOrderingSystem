@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/static/styleSheet/mobile_stylesheet.css" media="screen and (max-width: 768px)">
+        <link rel="stylesheet" href="/static/styleSheet/desktop_stylesheet.css" media="screen and (min-width: 800px)">  
+        <link rel="stylesheet" href="/static/styleSheet/style.css">
+    </head>
+    <body>
+        <div class="order_card" id="popup">
+            <span id="close-button" class="close">x</span>
+            <div class="cart">
+              
+              <ul class="cart-items">
+               <p>Created At: {{order.created_at}}</p>
+               <p>Token Number: {{token_number}}</p>
+               <p>Order Status{{order.status}}</p>
+               {% for temp in order.food_list %}
+               
+               <li>{{temp.name}} ({{temp.price }}) x {{temp.quantity }} = {{temp.sub_total}}</li>
+             
+               {% endfor %}
+              </ul>
+              <p>Total: ${{order.total}}</p>
+
+            </div>
+        </div>
+    </body>
+</html>

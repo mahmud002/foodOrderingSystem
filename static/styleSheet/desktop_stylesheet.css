@@ -4,18 +4,42 @@
   grid-template-columns:  10% 80% 10%;
   background-color: white;
   font-size: 15px;
-  margin-top: 150px;
+  margin-top: 0px;
   
 }
 .grid_container>div{
   margin:2px;   
 }
+
 .header{
   grid-column: 1 / 4;
   font-size: 20px;
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   color: #191970;
 }
+.resturant_heroImage {
+  position: relative; /* Add position relative to enable absolute positioning for the text */
+  grid-column: 1 / 4;
+  font-size: 20px;
+  background-image: url("/static/templates/components/resturant_heroImage.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* You can adjust other properties as needed */
+  height: 80vh; /* Set a minimum height for the body */
+  margin: 0; /* Remove default margin */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+
 .left_screen{
   grid-column: 1 / 2;
   font-size: 15px;
@@ -25,6 +49,8 @@
   grid-column: 2 / 3;
   font-size: 15px;
   background-color: white;
+  align-items: center;
+  justify-content: center;
 }
 .right_screen{
   grid-column: 3 / 4;
@@ -40,27 +66,35 @@
 /* Profile Page */
 .profile_grid_container{
   display: grid;
-  grid-template-columns:  15% 35% 35% 15%;
+  grid-template-columns:  25% 35% 35% 5%;
   background-color: white;
   font-size: 15px;
-  margin-top: 150px;
+  margin-top: 0px;
   
 }
 .profile_header{
   grid-column: 1 / 5;
   font-size: 20px;
-  
   color: #191970;
+}
+.button-container {
+  grid-column: 1 / 5;
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line on smaller screens */
+  justify-content: space-between; /* Distribute buttons evenly along the row */
+  gap: 10px; /* Add some space between buttons */
 }
 .profile_left_screen{
   grid-column: 1 / 2;
   font-size: 15px;
-  background-color: rgb(201, 100, 100);
+  
 }
 .profile_body_content1{
   grid-column: 2 / 3;
   font-size: 15px;
   background-color: white;
+
 }
 .profile_body_content2{
   grid-column: 3 / 4;
@@ -70,7 +104,7 @@
 .profile_right_screen{
   grid-column: 4 / 5;
   font-size: 15px;
-  background-color: rgb(180, 96, 96);
+
 }
 .profile_food{
   grid-column: 2 / 4;

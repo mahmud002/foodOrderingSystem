@@ -10,11 +10,11 @@ from django.conf import settings
 import json
 from django.shortcuts import render, get_object_or_404
 import json
-
+from django.http import JsonResponse
 from django.core.files.storage import default_storage
 from PIL import Image
 from io import BytesIO
-
+from datetime import datetime, timedelta
 # Create your views here.
 def index(request):
     
@@ -49,9 +49,10 @@ def order_list(request):
         profile_data = Profile.objects.get(user=request.user)
         order_request=Order.objects.filter(owner=request.user,status="not_taken")
         order_accepted=Order.objects.filter(owner=request.user,status="accepted")
-        
+        this_week=""
+        this_month=""
 
-        return render(request,'order_list.html',{'profile_data':profile_data, 'order':order_request,'order_accepted':order_accepted })
+        return render(request,'order_list.html',{'profile_data':profile_data, 'order':order_request,'order_accepted':order_accepted, 'yesterday': datetime.now()- timedelta(days=1)})
     else:
         return render(request,'login.html')
 def edit_profile (request):
@@ -138,9 +139,19 @@ def resize_image(image_file, max_size=(800, 600)):
     return img_io
 def insert_food(request):
     if request.user.is_authenticated:
-        form = FoodForm()
+ 
         pi = Profile.objects.get(user=request.user)
+        
         data = pi.food_list
+        unique_categories = set(item['category'] for item in data)
+
+    # Pass the unique categories to the form
+        form = FoodForm()  # Initialize the form without 'categories' argument
+
+        context = {
+            'form': form,
+            'unique_categories': unique_categories,  # Pass categories to the template
+        }
 
         if request.method == 'POST':
             form = FoodForm(request.POST, request.FILES)
@@ -180,7 +191,8 @@ def insert_food(request):
                 pi.save()
                
             return redirect('profile')
-        return render(request,'food_form.html',{'form':form})
+        
+        return render(request,'food_form.html',context)
     else:
         return HttpResponse("Please Login First")
 def find_dictionary_by_data(dictionary_list, key, value):
@@ -190,8 +202,10 @@ def find_dictionary_by_data(dictionary_list, key, value):
     return None
 def update_food(request):
     if request.user.is_authenticated:
+        
         if request.method=='POST':
             py_food=Food()
+            
             pk=Profile.objects.get(user=request.user)
 
             if request.POST.get('form_type') == 'identifire':
@@ -199,24 +213,37 @@ def update_food(request):
                 food_list=pk.food_list
                 
                 food=find_dictionary_by_data(food_list, "food_title", product_id)
+                
                 py_food.index=food['index']
                 py_food.food_title=food['food_title']
                 py_food.food_price=food['food_price']
                 py_food.category=food['category']
                 py_food.description=food['description']
                 py_food.food_image=food['food_image']
-
- 
+                data = pk.food_list
+                unique_categories = set(item['category'] for item in data)
                 form=FoodForm(instance=py_food)
+                context = {
+                'form': form,
+                'unique_categories': unique_categories,  # Pass categories to the template
+                'index':py_food.index,
+                'category_selected':food['category'],
+                'food_image':food['food_image']
                 
-                return render(request,'food_edit_form.html',{'form':form})
+                }
+                
+                
+                return render(request,'food_edit_form.html',context)
             else:
                 form=FoodForm(request.POST, request.FILES, instance=py_food)
                 if form.is_valid():                    
                     food_list=pk.food_list
 
-                    
+             
                     food=None
+                    index=form.cleaned_data['index']
+
+             
                     for i in food_list:
                         if int(i['index'])==int(form.cleaned_data['index']):
                             food=i
@@ -224,20 +251,19 @@ def update_food(request):
                     food['food_price']=form.cleaned_data['food_price']
                     food['category']=form.cleaned_data['category']
                     food['description']=form.cleaned_data['description']
-                    clear=form.cleaned_data['clear_image_url']
+                    
 
     
-                    
-                    if clear:
-                        default_storage.delete(food['food_image'])
-                        food['food_image']=""
+                    clear=form.cleaned_data['pre_food_image']
+                    if clear == form.cleaned_data['food_image']:
+                    #     default_storage.delete(food['food_image'])
+                    #     food['food_image']=""
                     # elif not form.cleaned_data['food_image'] :
-                    #     food['food_image']=food['food_image']
+                        food['food_image']=food['food_image']
+                        print("Working______________________")
                     
                     else:
-                        default_storage.delete(food['food_image'])
-
-                        
+                        default_storage.delete(clear)
                         resized_image = resize_image(form.cleaned_data['food_image'])
 
                         # Generate a unique filename for the resized image
@@ -304,16 +330,43 @@ def submit_order(request):
         cart_items = request.POST.get('data')  # Access the submitted data
         data=json.loads(cart_items)
         # key=get_object_or_404(User, username=data[0]['key'])
-
-        user=User.objects.get(username=data['owner'])
-        new_order=Order(owner=user,food_list=data['cartItems'],table_no=data['table_no'],customer_phone_number=data['phone'],order_password=data['order_password'],status="not_taken")
-        
       
-        new_order.save()
-  
+        user=User.objects.get(username=data['owner'])
+        new_order=Order(owner=user,food_list=data['cartItems'],table_no=data['table_no'],customer_phone_number=data['phone'],status="not_taken",total=data['total'],created_at=datetime.now())
         
-        return redirect("/catalog/"+data['owner'])
-   
+ 
+       
+        new_order.save()
+        new_object_id = new_order.id
+        redirect_url = '/order_status'  # Replace with the actual URL of your new page
+
+        # Return a JSON response with the redirect URL
+        response_data = {'redirect_url': redirect_url}
+        response = JsonResponse(response_data)
+
+    # Set a cookie in the response
+        response.set_cookie('food_order_cookie', new_object_id, max_age=43200)
+
+        return response
+
+def order_status(request):
+    if request.COOKIES.get('food_order_cookie'):
+        id=request.COOKIES.get('food_order_cookie')
+        order=Order.objects.get(id=id)
+        print(id)
+        print("__________________________")
+        return render(request,'order_status.html',{'order':order, 'token_number':id})
+    else:
+        return HttpResponse("You not ordered")
+
+def reject_order(request):
+    if request.method=='POST':
+        id=request.POST['order_id']
+        order=Order.objects.get(id=id)
+        order.status="Rejected"
+        order.save()
+        return redirect("order_list")
+
 ##Login Logout
 def login (request):
     if request.method=='POST':

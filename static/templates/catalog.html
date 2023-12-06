@@ -30,7 +30,6 @@
         </ul>
         <p>Total: $0</p>
         <input type="text" placeholder="Enter Your Phone Number" id="customer_phone_number" required>
-        <input type="text" placeholder="set a Order Password" id="Order_password" required>
         <input type="hidden" id="key" value={{key}}>
         <input type="hidden" id="table_no" value={{table_no}}>
         <button class="submit-order" onclick="return confirmDelete()">Submit order</button>
@@ -119,7 +118,7 @@ addToCartButtons.forEach(button => {
     
     
     // add item to cart
-    cartItems.push({ name: foodItemName, price: foodItemPrice, quantity});
+    cartItems.push({ name: foodItemName, price: foodItemPrice, quantity, sub_total:foodItemPrice*quantity});
 
     // update cart DOM
     updateCartDOM();
@@ -135,20 +134,21 @@ addToCartButtons.forEach(button => {
 const submitOrderButton = document.querySelector('.submit-order');
 submitOrderButton.addEventListener('click', () => {
   
-
+  console.log(cartItems);
   
   // Get the CSRF token from the cookie
   phone_number=document.getElementById('customer_phone_number').value;
-  Order_password=document.getElementById('Order_password').value;
+
   const key = document.getElementById("key").value;
   const table_no = document.getElementById("table_no").value;
   
 
   const csrftoken = getCookie('csrftoken');
   const data={'phone':phone_number,
-        'order_password':Order_password,
+
         'owner':key,
         'table_no':table_no,
+        'total': total,
         'cartItems':cartItems}
    
   // Send cartItems array to server to process order
@@ -161,7 +161,20 @@ submitOrderButton.addEventListener('click', () => {
     body: 'data=' + encodeURIComponent(JSON.stringify(data)),
     
   })
+  .then(response => response.json())
+.then(data => {
+    // Check if the response contains a redirect URL
+    if (data.redirect_url) {
+        // Redirect to the new page
 
+        window.location.href = data.redirect_url;
+    } else {
+        // Handle any other response data or actions if needed
+    }
+})
+.catch(error => {
+    // Handle any errors that may occur during the fetch request
+});
 
 // Check if Geolocation API is available
 if ('geolocation' in navigator) {

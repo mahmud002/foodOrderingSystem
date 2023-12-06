@@ -9,11 +9,21 @@
      </div>
       <div class="profile_grid_container">
 
+         <div class="profile_food">
+            <h2>{{profile_data.resturant_name}}</h2>
+
+         </div>
          <div class="profile_left_screen">
-            <a href="/edit_profile">Update</a><br>
-            <a href="/insert_food">Insert Food</a><br>
-            <a href="/update_password">Update Password</a>
-            <a href="/order_list">Order List</a>
+            <div >
+               <ul class="button-list">
+                  <li><a href="/edit_profile" class="profile_left_right_buttons">Update</a></li>
+                  <li><a href="/insert_food" class="profile_left_right_buttons">Insert Food</a></li>
+                  <li><a href="/update_password" class="profile_left_right_buttons">Update Password</a></li>
+                  <li><a href="/order_list" class="profile_left_right_buttons">Order List</a></li>
+               </ul>
+              
+            </div>
+
          </div>
          <div class="profile_body_content1">
    
@@ -28,51 +38,95 @@
          </div>
 
          <div class="profile_right_screen">
-            {% for temp in url %}
-               <a href={{temp.url}}>{{temp.name}}</a><br>
-            {% endfor %}
-         </div>
-         <div class="profile_food">
-            <h2>{{profile_data.resturant_name}}</h2>
 
          </div>
+
+         <h4>Ordeer Request List</h4>
+         {% now "Y-m-d" as current_date %}
+         
+         
+
+         <div class="button-container">
+
+            
+            {% for temp2 in order %}
+
+            {% if temp2.created_at|date:"Y-m-d" == current_date or temp2.created_at|date:"Y-m-d" == yesterday|date:"Y-m-d" %}
+
+               <div class="order_card" id="popup">
+                  <span id="close-button" class="close">x</span>
+                  <div class="cart">
+                    
+                    <ul class="cart-items">
+                     {{current_date}}
+                     {% for temp3 in temp2.food_list %}
+                     
+                     <li>{{temp3.name}} ({{ temp3.price }}) x {{ temp3.quantity }} = {{temp3.sub_total}}</li>
+                   
+                     {% endfor %}
+                    </ul>
+                    <p>Total: ${{temp2.total}}</p>
+                    <div class="button-container">
+                    <form action="/accept_order" method="post">
+                     {% csrf_token %}
+                     <input type="hidden" name="order_id" value={{temp2.id}}>
+                     <button type="submit" class="submit-button">Accept</button>
+                     </form>
+                     <form action="/reject_order" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value={{temp2.id}}>
+                        <button type="submit" class="submit-button_delete">Reject</button>
+                     </form>
+                  </div>
+                  </div>
+              </div>
+            {% endif %}
+            
+               
+            {% endfor %}
+        </div>
+        <h4>Ordeer Accepted List</h4>
+        <div class="button-container">
+
+            
+         {% for temp2 in order_accepted %}
+
+         {% if temp2.created_at|date:"Y-m-d" == current_date %}
+
+            <div class="order_card" id="popup">
+               <span id="close-button" class="close">x</span>
+               <div class="cart">
+                 
+                 <ul class="cart-items">
+                  {{current_date}}
+                  {% for temp3 in temp2.food_list %}
+                  
+                  <li>{{ temp3.price }} x {{ temp3.quantity }} = {{temp3.sub_total}}</li>
+                
+                  {% endfor %}
+                 </ul>
+                 <p>Total: ${{temp2.total}}</p>
+
+
+               </div>
+           </div>
+         {% endif %}
+         
+            
+         {% endfor %}
+     </div>
       </div>
+
+
    </body>
 </html>
 
 
 
 
-<br>
 
 
 
-
-<br>
-
-<br>
-<h4>Ordeer Request List</h4>
-{% for temp2 in order %}
-    {% for temp3 in temp2.food_list %}
-        <span>--></span>{{temp3.name}}
-        {{temp3.price}}
-    {% endfor %}
-    <form action="/accept_order" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="order_id" value={{temp2.id}}>
-        <button type="submit">Accept</button>
-    </form>
-    <br>
-{% endfor %}
-<h4>Ordeer Accepted List</h4>
-{% for temp2 in order_accepted %}
-    {% for temp3 in temp2.food_list %}
-        <span>--></span>{{temp3.name}}
-        {{temp3.price}}
-{% endfor %}
-<br>
-
-{% endfor %}
 
 
     

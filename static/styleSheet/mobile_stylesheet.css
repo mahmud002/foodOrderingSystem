@@ -92,6 +92,7 @@
   cursor: pointer; /* Change cursor on hover */
   border: none;
 }
+
 .submit-button_delete {
   padding: 10px 10px; /* Adjust padding as needed */
   background-color: #ff6666; /* Button background color */

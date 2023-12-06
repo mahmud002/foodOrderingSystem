@@ -19,4 +19,6 @@ urlpatterns = [
     path("order_list",views.order_list, name='order_list'),
     path("submit_order",views.submit_order, name='submit_order'),
     path("accept_order",views.accept_order, name='accept_order'),
+    path("reject_order",views.reject_order, name='reject_order'),
+    path("order_status",views.order_status, name='order_status'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

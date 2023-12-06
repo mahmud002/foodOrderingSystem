@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 from django.contrib.auth.models import User,auth
+from django.utils import timezone
 
 
 # Create your models here.
@@ -49,7 +50,7 @@ class Order(models.Model):
     table_no=models.CharField(max_length=255, null=True, blank=True)
     status=models.CharField(max_length=255, null=True, blank=True)
     customer_phone_number=models.CharField(max_length=255, null=True, blank=False)
-    order_password=models.CharField(max_length=255, null=True, blank=False)
-
+    total=models.CharField(max_length=255, null=True, blank=False)
+    created_at=models.DateTimeField(null=True) 
 
         

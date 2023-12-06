@@ -9,11 +9,21 @@
      </div>
       <div class="profile_grid_container">
 
+         <div class="profile_food">
+            <h2>{{profile_data.resturant_name}}</h2>
+
+         </div>
          <div class="profile_left_screen">
-            <a href="/edit_profile">Update</a><br>
-            <a href="/insert_food">Insert Food</a><br>
-            <a href="/update_password">Update Password</a>
-            <a href="/order_list">Order List</a>
+            <div >
+               <ul class="button-list">
+                  <li><a href="/edit_profile" class="profile_left_right_buttons">Update</a></li>
+                  <li><a href="/insert_food" class="profile_left_right_buttons">Insert Food</a></li>
+                  <li><a href="/update_password" class="profile_left_right_buttons">Update Password</a></li>
+                  <li><a href="/order_list" class="profile_left_right_buttons">Order List</a></li>
+               </ul>
+              
+            </div>
+
          </div>
          <div class="profile_body_content1">
    
@@ -28,14 +38,18 @@
          </div>
 
          <div class="profile_right_screen">
-            {% for temp in url %}
-               <a href={{temp.url}}>{{temp.name}}</a><br>
-            {% endfor %}
-         </div>
-         <div class="profile_food">
-            <h2>{{profile_data.resturant_name}}</h2>
 
          </div>
+        
+         <h3>Table Urls</h3>
+         <div class="button-container">
+
+           
+            {% for temp in url %}
+            <button class="left_bar" onclick="copyToClipboard('{{ temp.url }}')">{{ temp.name }}</button>
+
+             {% endfor %}
+        </div>
       </div>
       <h4>Catalog</h4><hr>
 <br>
@@ -68,7 +82,23 @@
     function confirmDelete(food_title) {
       return confirm("Are you sure you want to delete "+food_title+" item?");
     }
+    function copyToClipboard(partialURL) {
+            // Get the current hostname and port
+            var host = window.location.protocol + "//" + window.location.host;
+
+            // Combine the host with the partial URL to create the full URL
+            var fullURL = host + partialURL;
+
+            var tempInput = document.createElement("input");
+            tempInput.value = fullURL;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Copied: " + fullURL);
+        }
 </script>
+
    </body>
 </html>
 
