@@ -307,11 +307,19 @@ def catalog(request,key):
     food_items_by_category = {}
     for food_item in food_list:
         category = food_item["category"]
+
         if category not in food_items_by_category:
             food_items_by_category[category] = []
         food_items_by_category[category].append(food_item)
+    
+    # If "Offer" is in the dictionary, move it to the front
+    if "Offer" in food_items_by_category:
+        offer_items = food_items_by_category.pop("Offer")
+        food_items_by_category = {"Offer": offer_items, **food_items_by_category}
+
     resturant_Name=Profile.objects.values('resturant_name').get(user=user)
     
+
     table_no = request.GET.get('table')
 
     return render(request,'catalog.html',{'food_items_by_category':food_items_by_category,'key':key,'resturantName':resturant_Name['resturant_name'],'table_no':table_no})
