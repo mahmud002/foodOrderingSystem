@@ -40,10 +40,17 @@
          <div class="profile_right_screen">
 
          </div>
-        
-         <h3>Table Urls</h3>
-         <div class="button-container">
 
+         <div class="body_content">
+            <div class="guide">
+               <h3 class="brandHeading">How to use?</h3>
+               <img class="guide_image" src="/static/templates/assets/guideProfile.png" alt="Home Page Guide">
+               
+            </div>
+         </div>
+         
+         <div class="button-container">
+            <h3>Table Urls</h3>
            
             {% for temp in url %}
             <button class="left_bar" onclick="copyToClipboard('{{ temp.url }}')">{{ temp.name }}</button>
