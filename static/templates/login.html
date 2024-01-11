@@ -54,7 +54,7 @@
 	}
 	/*set padding to the container*/
 	
-	.container {
+	.container_login {
 		padding: 16px;
 	}
 	/*set the forgot password text*/
@@ -92,12 +92,13 @@
 	<div class="grid_container">
 		<div class="header">
 		   {% include 'components/navbar.html' %}
+		   <h2>Login Form</h2>
 		</div>
 		<div class="left_screen">
 		   body left
 		</div>
 		<div class="body_content">
-			<h2>Login Form</h2>
+			
 			<!--Step 1 : Adding HTML-->
 			<form action="login" method="POST">
 			  {% csrf_token %}
@@ -107,7 +108,7 @@
 						alt="Avatar" class="avatar">-->
 				</div>
 		
-				<div class="container">
+				<div class="container_login">
 					<label><b>Username</b></label>
 					<input type="text" placeholder="Enter Username" name="username" required>
 		
@@ -118,7 +119,7 @@
 		
 				</div>
 		
-				<div class="container" style="background-color:#f1f1f1">
+				<div class="container_login" style="background-color:#f1f1f1">
 					<button type="/" class="cancelbtn">Cancel</button>
 					<span class="psw">First Time? <a href="singup"class="btn">singup</a></span>
 				</div>

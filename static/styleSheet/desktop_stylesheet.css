@@ -1,3 +1,7 @@
+:root {
+  --main-color: #ff6666; /* Define a variable named --main-color and assign it a color value */
+  --secondary-color: #ffbfbf; /* Define another variable */
+}
 
 .grid_container{
   display: grid;
@@ -18,7 +22,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #191970;
+  color: var(--them-color);;
 
 }
 .resturant_heroImage {
@@ -40,10 +44,11 @@
 }
 
 .space{
-  background-color: rgb(248, 230, 230);
+  background-color: var(--secondary-color);
   grid-column: 1 / 4;
-  height: 50px;
+  height: 20px;
   border-radius: 5px;
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
 }
 
 .left_screen{
@@ -63,12 +68,16 @@
 .right_screen{
   grid-column: 3 / 4;
   font-size: 15px;
-  background-color: white;
+
+  
 }
 .footer{
   grid-column: 1 / 4;
   font-size: 15px;
   background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Profile Page */
@@ -89,8 +98,11 @@
   grid-column: 1 / 5;
   margin-left: 20%;
   margin-right: 20%;
-
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
+
 .button-container {
   grid-column: 1 / 5;
   margin-top: 30px;
@@ -124,7 +136,14 @@
   background-color: white;
 
 }
-
+.container{
+  border: 20px solid var(--secondary-color);
+  border-radius: 50px;
+  margin:auto;
+  padding: 15px;
+  margin-top: 130px;
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+}
 .logo_image {
   width: 150px; /* Set the desired width */
   height: 150px; /* Set the desired height */
@@ -153,7 +172,7 @@
 }
 .submit-button_delete {
   padding: 10px 10px; /* Adjust padding as needed */
-  background-color: #ff6666; /* Button background color */
+  background-color: var(--main-color); /* Button background color */
   color: #fff; /* Text color */
   border-radius: 5px; /* Remove button borders */
   border: none;
@@ -176,15 +195,71 @@
 .guide_image{
   width:80%;
   background-color: #fff;
-
+ 
 }
 .guide{
   justify-content: center;
   text-align: center;
-  
+  margin-top: 160px;
+  border: 20px solid var(--secondary-color);
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  width: 60%;
 }
 
 .brandHeading{
-  color: #ff6666;
+  color: var(--main-color);;
+  font-size: 30px;
+}
+
+footer{
+  display: flex;
+  margin-top: 160px;
+  border: 20px solid var(--secondary-color);
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  margin-bottom: 30px;
+  border-radius: 50px;
+  width: 80%;
+}
+.footer_left{
+  width: 50%;
+  justify-content: center;
+  text-align: right;
+  margin-right: 60px;
   
+}
+.footer_right{
+  width: 50%;
+  justify-content: center;
+  text-align: left;
+  margin-left: 60px;
+  text-decoration: none;
+}
+.footer_right a{
+  text-decoration: none;
+  margin: auto;
+  color: black;
+  width: 120px;
+}
+
+.footer_link_container{
+  margin-top: 10px;
+  background-color: var(--secondary-color);
+  width: 120px;
+  height: 25px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  border-radius: 10px;
+
+}
+
+.footer_link_container:hover{
+  background-color: var(--main-color);
+}
+.footer_right a:hover{
+  text-decoration: none;
+  margin: auto;
+  color: white;
 }
