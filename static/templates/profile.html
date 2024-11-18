@@ -1,7 +1,7 @@
 <html>
    <head>
       <title>Home</title>
-
+      <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
    </head>
    <body>
       <div class="navbar">
@@ -40,44 +40,96 @@
          <div class="profile_right_screen">
 
          </div>
-        
-         <h3>Table Urls</h3>
-         <div class="button-container">
+         <div class="profile_left_screen">
+         </div>
+         <div class="profile_body_content12">
+            <h3>Table Urls</h3>
+            <div class="button-container">
+   
+              
+               <!-- {% for temp in url %}
+               <button class="left_bar" onclick="copyToClipboard('{{ temp.url }}')">{{ temp.name }}</button>
+                  
+                {% endfor %} -->
+                <div id="qr-codes-container" class="button-container"></div>
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                      // Dynamically generate URLs and names from Django template
+                      var urls = [
+                          {% for temp in url %}
+                              { name: "{{ temp.name }}", url: "{{ temp.url }}" },
+                          {% endfor %}
+                      ];
+          
+                      // Select the container where QR codes will be added
+                      var container = document.getElementById('qr-codes-container');
+                      
+                      // Loop through each URL and generate QR code
+                      urls.forEach(function(item) {
+                          // Create a div for each QR code and its associated name
+                          var qrCodeContainer = document.createElement('div');
+                          qrCodeContainer.classList.add('qrcode-container');
+                          
+                          // Create the QR code and append it to the container
+                          var qrCodeDiv = document.createElement('div');
+                          new QRCode(qrCodeDiv, {
+                              text: item.url,
+                              width: 150,  // Size of the QR code
+                              height: 150, // Size of the QR code
+                              colorDark: "#000000",  // QR code color
+                              colorLight: "#ffffff", // Background color of QR code
+                              correctLevel: QRCode.CorrectLevel.H  // Error correction level
+                          });
+                          qrCodeContainer.appendChild(qrCodeDiv);
+          
+                          // Create and append the name (label) under the QR code
+                          var nameLabel = document.createElement('span');
+                          nameLabel.textContent = item.name;
+                          qrCodeContainer.appendChild(nameLabel);
+          
+                          // Add the QR code container to the main container
+                          container.appendChild(qrCodeContainer);
+                      });
+                  });
+              </script>
 
-           
-            {% for temp in url %}
-            <button class="left_bar" onclick="copyToClipboard('{{ temp.url }}')">{{ temp.name }}</button>
+           </div>
+           <h4>Catalog</h4><hr>
+           <br>
+           <div class="content_container">
+            {% for category, food_items in food_items_by_category.items %}
+            
+            <div class="food-category" id="category1">
+              <h2 class="category_heading">{{ category }}</h2>
+            <div class="card-list">
+            
+              {% for temp in food_items %}
+              <!-- <div class="item">
+                  <a href=/{{temp.food_image}}><img src=/{{temp.food_image}} alt="Delicious food"></a>
+                  <h3 class="food-title">{{temp.food_title}}</h3>
+                  <p><span>Price: </span><span class="price">${{temp.food_price}}</span></p>
+                  <label for="quantity">Quantity:</label>
+                  <input type="number" id="quantity" value="1">
+                  <input type="hidden" name="owner" value={{key}}>
+                  <button class="add-to-cart">Add to cart</button>
+                </div> -->
+                {% include 'components/profile_food_card.html' %}
+            
+              
+              {% endfor %}
+              </div>
+            {% endfor %}
+           </div>
+         </div>
+         </div>
+  
 
-             {% endfor %}
-        </div>
       </div>
-      <h4>Catalog</h4><hr>
-<br>
-<div class="content_container">
-   {% for category, food_items in food_items_by_category.items %}
-   
-   <div class="food-category" id="category1">
-     <h2 class="category_heading">{{ category }}</h2>
-   <div class="card-list">
-   
-     {% for temp in food_items %}
-     <!-- <div class="item">
-         <a href=/{{temp.food_image}}><img src=/{{temp.food_image}} alt="Delicious food"></a>
-         <h3 class="food-title">{{temp.food_title}}</h3>
-         <p><span>Price: </span><span class="price">${{temp.food_price}}</span></p>
-         <label for="quantity">Quantity:</label>
-         <input type="number" id="quantity" value="1">
-         <input type="hidden" name="owner" value={{key}}>
-         <button class="add-to-cart">Add to cart</button>
-       </div> -->
-       {% include 'components/profile_food_card.html' %}
-   
-     
-     {% endfor %}
-     </div>
-   {% endfor %}
-     </div>
-   </div>
+
+
+
+
+      
 <script>
     function confirmDelete(food_title) {
       return confirm("Are you sure you want to delete "+food_title+" item?");

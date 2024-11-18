@@ -37,7 +37,7 @@ def profile(request):
         url_list=[]
         i=1
         while(i<=n):
-            url_list.append({'name':"Table "+str(i),'url':"/catalog/"+str(profile_data.user)+"?table="+str(i)})
+            url_list.append({'name':"Table "+str(i),'url':"http://127.0.0.1:8000/catalog/"+str(profile_data.user)+"?table="+str(i)})
             i=i+1
 
         return render(request,'profile.html',{'profile_data':profile_data, 'url':url_list, 'order':order_request,'order_accepted':order_accepted,'food_items_by_category':food_items_by_category })
