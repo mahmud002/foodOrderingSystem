@@ -1,4 +1,4 @@
-<html>
+<!-- <html>
     <head>
 <link rel="stylesheet" href="/static/styleSheet/form_designe.css">
     </head>
@@ -12,5 +12,58 @@
    
     <button type="submit">Submit</button>
 </form>
+</body>
+</html> -->
+<html>
+<head>
+<link rel="stylesheet" href="/static/styleSheet/form_designe.css">
+</head>
+<body>
+<h3>Profile Edit</h3>
+<hr>
+<form action="" method="post" enctype="multipart/form-data">
+   
+    <input type="hidden" name="csrfmiddlewaretoken" value="T6gIY0PrmmLkBwwk4yiaTFqmvTU3YJ9TsyAfbwfnSVFxy7HdhJsDnYKk9QNX1vr5">
+    
+    <p>
+        <label for="id_logo_image">Logo image:</label>
+        <!-- Display current logo image if it exists -->
+        {% if logo_image %}
+            <img src="{{ logo_image.url }}" alt="Current Logo" width="150" height="auto">
+        {% else %}
+            <p>No logo image uploaded</p>
+        {% endif %}
+        Change:
+        <input type="file" name="logo_image" accept="image/*" id="id_logo_image">
+    </p>
+
+    <p>
+        <label for="id_resturant_name">Resturant name:</label>
+        <input type="text" name="resturant_name" value="Sara Din Khai Food Corner" maxlength="255" id="id_resturant_name">
+    </p>
+
+    <p>
+        <label for="id_address">Address:</label>
+        <textarea name="address" cols="40" rows="10" maxlength="1000" id="id_address">Dhaka Jatrabari fgdfg</textarea>
+    </p>
+
+    <p>
+        <label for="id_phone">Phone:</label>
+        <input type="text" name="phone" value="1 234-567-89011212" maxlength="255" id="id_phone">
+    </p>
+
+    <p>
+        <label for="id_email">Email:</label>
+        <input type="email" name="email" value="mahmud@gmail.com" maxlength="254" id="id_email">
+    </p>
+
+    <p>
+        <label for="id_number_of_table">Number of table:</label>
+        <input type="text" name="number_of_table" value="50" maxlength="255" id="id_number_of_table">
+    </p>
+
+    <button type="submit">Submit</button>
+</form>
+
 </body>
 </html>

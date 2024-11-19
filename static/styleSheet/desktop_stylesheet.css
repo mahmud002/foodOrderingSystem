@@ -164,3 +164,22 @@
   font-family: 'Roboto Mono', monospace;
 }
 
+    /* Reset some default styles */
+    .profile_left_right_buttons {
+      text-decoration: none;
+      color:#FF2C2C;
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
+      display: block;
+      padding: 5px 5px;
+      margin: 10px;
+      width: max-content;
+      background: transparent;
+      
+    }
+    .button-list{
+      color:#ff6666;
+      margin-left: 30px;
+      position: fixed;
+    }

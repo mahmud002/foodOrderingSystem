@@ -66,20 +66,7 @@ body {
       background-color: black;
     }
  
-    /* Reset some default styles */
-    .profile_left_right_buttons {
-      text-decoration: none;
-      color:#FF2C2C;
-      font-size: 15px;
-      font-weight: bold;
-      border: none;
-      display: block;
-      padding: 5px 5px;
-      margin: 10px;
-      width: max-content;
-      background: transparent;
-      
-    }
+
     .left_bar{
       flex: 1; /* Allow buttons to share available space equally */
       min-width: 100px; /* Set a minimum width for buttons */
@@ -99,11 +86,7 @@ body {
       border-radius: 7px;
       transition: all .2s ease;
   }
-  .button-list{
-    color:#ff6666;
-    margin-left: 30px;
-    position: fixed;
-  }
+
     .profile_left_right_buttons:hover{
       border-bottom: 3px solid #ff6666;
       color:#ff6666;
@@ -292,6 +275,7 @@ span {
 .button-container {
   display: flex; /* Use flexbox to make the buttons display in a row */
   justify-content: space-between; /* Adjust the space between the buttons */
+  margin-left: 30;
 }
 .submit-button-accept {
   padding: 10px 10px; /* Adjust padding as needed */
