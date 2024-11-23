@@ -5,7 +5,7 @@
     <body>
         <form name="FoodForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-        
+            <h3>Edit Your Food Item</h3>
             <!-- Food Title -->
             <div class="form-group">
                 <label for="{{ form.food_title.id_for_label }}">Food Title:</label>

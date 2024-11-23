@@ -5,7 +5,7 @@
     <body>
 <form name="FoodForm" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
+    <h3>Insert Food Item</h3>
     <!-- Food Title -->
     <div class="form-group">
         <label for="{{ form.food_title.id_for_label }}">Food Title:</label>
@@ -44,10 +44,10 @@
     </div>
 
     <!-- Clear Image URL -->
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label for="{{ form.clear_image_url.id_for_label }}">Clear Image URL:</label>
         {{ form.clear_image_url }}
-    </div>
+    </div> -->
 
     <input type="submit" value="Submit">
 </form>

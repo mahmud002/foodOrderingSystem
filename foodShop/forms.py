@@ -7,7 +7,12 @@ class ProfileForm(ModelForm):
         model = Profile
         fields= '__all__'
         exclude=['user','food_list']
-
+    # Optional: if you need to validate or handle the clearing of the image manually:
+    def clean_logo_image(self):
+        logo_image_clear = self.cleaned_data.get('logo_image-clear', False)
+        if logo_image_clear:
+            return None  # Return None to clear the image
+        return self.cleaned_data.get('logo_image')
 class FoodForm(forms.ModelForm):
     clear_image_url = forms.BooleanField(required=False)
     pre_food_image=forms.CharField(max_length=255, required=False, label='pre_food_image')

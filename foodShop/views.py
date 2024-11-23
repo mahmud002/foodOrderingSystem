@@ -55,7 +55,7 @@ def order_list(request):
         return render(request,'order_list.html',{'profile_data':profile_data, 'order':order_request,'order_accepted':order_accepted, 'yesterday': datetime.now()- timedelta(days=1)})
     else:
         return render(request,'login.html')
-def edit_profile (request):
+# def edit_profile (request):
         if request.user.is_authenticated:
 
             if request.method=='POST':
@@ -81,6 +81,37 @@ def edit_profile (request):
         else:
             return HttpResponse("Please Login First")
 
+def edit_profile(request):
+    if request.user.is_authenticated:
+        # Fetch the user's profile
+        profile = Profile.objects.get(user=request.user)
+
+        if request.method == 'POST':
+            # When the form is submitted
+            
+            # Save the previous image before the update, if needed
+            if 'logo_image-clear' in request.POST and profile.logo_image:
+                # If the user wants to clear the logo image, delete the old image
+                default_storage.delete(profile.logo_image.path)
+                profile.logo_image = None  # Remove the image from the profile
+                profile.save()
+                print("Previous logo image deleted.")
+
+            # Initialize the form with the POST data and the current profile instance
+            form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+            if form.is_valid():  # Corrected form validation
+                form.save()  # Save the updated profile
+                return redirect('profile')  # Redirect to the profile view page
+
+        else:
+            # When the form is first opened (GET request)
+            form = ProfileForm(instance=profile)
+            
+        return render(request, 'profile_edit.html', {'form': form})
+
+    else:
+        return HttpResponse("Please Login First")
 # def insert_food(request):
 #     if request.user.is_authenticated:       
 #         form=FoodForm()

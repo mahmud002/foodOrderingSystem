@@ -1,61 +1,125 @@
-
-/* Style the form container */
+/* General body styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* Style form group */
+/* Form container styling */
+form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Form title styling */
+h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form fields styling */
 .form-group {
     margin-bottom: 20px;
 }
 
-/* Style labels */
+/* Label styling */
 label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
     display: block;
-    font-weight: bold;
 }
 
-/* Style text inputs and select */
+/* Input field styling */
 input[type="text"],
 input[type="password"],
 input[type="email"],
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Style file input */
+textarea, select,
 input[type="file"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
 }
 
-/* Style submit button */
-button[type="submit"],
-input[type="submit"] {
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus, select:focus,
+input[type="file"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Textarea specific styling */
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Checkbox label styling */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+label[for="logo_image-clear_id"] {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Submit button styling */
+button[type="submit"],input[type="submit"] {
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 16px;
     cursor: pointer;
+    width: 50%;
+    margin-top: 25px;
+    transition: background-color 0.3s ease;
+    margin-left: 25%;
+    text-align: center;
 }
 
-/* Style checkbox label */
-#id_clear_image_url {
-    margin-left: 5px;
+button[type="submit"]:hover , input[type="submit"]:hover{
+    background-color: #0056b3;
 }
 
-/* Style the "Type a custom value" option */
-#food-category-selected {
-    font-style: italic;
+/* Link styling */
+a {
+    color: #007bff;
+    text-decoration: none;
 }
 
-/* Style the input field for custom category */
-#new-category-input {
-    display: none;
+a:hover {
+    text-decoration: underline;
 }
+
+/* Small helper text (optional) */
+small {
+    font-size: 12px;
+    color: #888;
+}
+.logo_image {
+    width: 150px; /* Set the desired width */
+    height: 150px; /* Set the desired height */
+    border-radius: 50%; /* Make it circular by setting the border-radius to 50% */
+    overflow: hidden; /* Hide any image overflow beyond the circular boundary */
+  }
