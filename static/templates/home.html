@@ -1,7 +1,7 @@
 <html>
    <head>
       <title>Home</title>
-
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
    </head>
    <body>
       <div class="navbar">
@@ -16,18 +16,83 @@
             <h2>KHADIM</h2>
           
          </div>
-         <!-- <div class="left_screen">
-            body left
+         <div class="left_screen">
+            
+         </div> 
+         <!-- <div class="body_content">
+            <h3>How to use?</h3>
          </div> -->
          <div class="body_content">
             <h3>How to use?</h3>
+            <div class="steps_container">
+               <div class="step">
+                  <a href="/static/templates/components/scanQR.jpg"><img src="/static/templates/components/scanQR.jpg" alt="Scan QR Code" class="step_icon"></a>
+                  <h4>Step 1: Scan the QR Code</h4>
+                  <p>Use your smartphone to scan the QR code on the table.</p>
+               </div>
+               <div class="step">
+                  <a href="/static/templates/components/food_catelog.jpg"><img src="/static/templates/components/food_catelog.jpg" alt="Scan QR Code" class="step_icon"></a>
+                  <h4>Step 2: Browse the Menu</h4>
+                  <p>Explore the delicious dishes available at the restaurant.</p>
+               </div>
+               <div class="step">
+                  <a href="/static/templates/components/input_order.jpg"><img src="/static/templates/components/input_order.jpg" alt="Scan QR Code" class="step_icon"></a>
+                  <h4>Step 3: Place Your Order</h4>
+                  <p>Select your favorite items and confirm your order.</p>
+               </div>
+            </div>
+         
+            <!-- Promotional Section -->
+            <div class="promo_section">
+               <h3>Why Choose KHADIM?</h3>
+               <br><br>
+               <div class="promo_content">
+                  <div class="promo_item">
+                     <a href="/static/templates/components/fast_easy.jpg"><img src="/static/templates/components/fast_easy.jpg" alt="Scan QR Code" class="step_icon"></a>
+                     <h4>Fast and Easy</h4>
+                     <p>Order your favorite meals in just a few clicks.</p>
+                  </div>
+                  <div class="promo_item">
+                     <a href="/static/templates/components/degitalisez_your_business.jpg"><img src="/static/templates/components/degitalisez_your_business.jpg" alt="Scan QR Code" class="step_icon"></a>
+                     <h4>Secure Payments</h4>
+                     <p>Pay effortlessly and securely through the app.</p>
+                  </div>
+                  <div class="promo_item">
+                     <a href="/static/templates/components/24_7support.jpg"><img src="/static/templates/components/24_7support.jpg" alt="Scan QR Code" class="step_icon"></a>
+                     <h4>24/7 Support</h4>
+                     <p>Get assistance anytime you need it.</p>
+                  </div>
+               </div>
+            </div>
+         
+            <!-- Call-to-Action Buttons -->
+            <!-- <div class="cta_buttons">
+               <button class="learn_more">Learn More</button>
+               <button class="get_started">Get Started</button>
+            </div> -->
          </div>
-         <!-- <div class="right_screen">
-            body right
-         </div> -->
-         <div class="footer">
+         
+         <div class="right_screen">
+            
+         </div>
+         <!-- <div class="footer">
             footer
-         </div>
+         </div> -->
+         <footer class="footer">
+            {% include 'components/footer.html' %}
+        </footer>
+         
+         
+         
       </div>
    </body>
+   <script>
+      document.querySelectorAll('.footer-header').forEach(button => {
+          button.addEventListener('click', () => {
+              const content = button.nextElementSibling;
+              content.classList.toggle('show');
+          });
+      });
+  </script>
+  
 </html>

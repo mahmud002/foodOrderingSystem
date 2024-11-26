@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/static/styleSheet/style.css"> -->
+    <link rel="stylesheet" href="/static/styleSheet/mobile_stylesheet.css" media="screen and (max-width: 799px)">
+    <link rel="stylesheet" href="/static/styleSheet/desktop_stylesheet.css" media="screen and (min-width: 800px)">  
+    <link rel="stylesheet" href="/static/styleSheet/style.css">
+
+<style>
+
+
+ 
+
+</style>
+</head>
+<body>
+
+  <div class="footer-section">
+    <button class="footer-header">Section 1</button>
+    <div class="footer-content">
+      <ul>
+         <li><a href="#">Link 1</a></li>
+         <li><a href="#">Link 2</a></li>
+         <li><a href="#">Link 3</a></li>
+     </ul>
+    </div>
+</div>
+<div class="footer-section">
+    <button class="footer-header">Section 2</button>
+    <div class="footer-content">
+      <ul>
+         <li><a href="#">Link 1</a></li>
+         <li><a href="#">Link 2</a></li>
+         <li><a href="#">Link 3</a></li>
+     </ul>
+    </div>
+</div>
+<div class="footer-section">
+    <button class="footer-header">Section 3</button>
+    <div class="footer-content">
+      <ul>
+         <li><a href="#">Link 1 </a></li>
+         <li><a href="#">Link 2 </a></li>
+         <li><a href="#">Link 3 </a></li>
+     </ul>
+    </div>
+</div>
+
+
+
+
+</body>
+<script>
+  document.querySelectorAll('.footer-header').forEach(button => {
+      button.addEventListener('click', () => {
+          const content = button.nextElementSibling;
+          content.classList.toggle('show');
+      });
+  });
+</script>
+</html>
+
