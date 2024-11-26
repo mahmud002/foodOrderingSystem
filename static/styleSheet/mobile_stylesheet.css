@@ -386,4 +386,11 @@
   border: none;
   cursor: pointer; /* Change cursor on hover */
 }
+.button-container {
+  display: flex; /* Use flexbox to make the buttons display in a row */
+  justify-content: space-between; /* Adjust the space between the buttons */
+  margin-left: 30;
+  overflow-x:scroll ;
+  justify-content: flex-start;
+}
 /* Profile Close */

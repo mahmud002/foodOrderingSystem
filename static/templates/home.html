@@ -78,14 +78,13 @@
          <!-- <div class="footer">
             footer
          </div> -->
-         <footer class="footer">
-            {% include 'components/footer.html' %}
-        </footer>
+         {% include 'components/footer.html' %}
          
          
          
       </div>
    </body>
+
    <script>
       document.querySelectorAll('.footer-header').forEach(button => {
           button.addEventListener('click', () => {
@@ -93,6 +92,5 @@
               content.classList.toggle('show');
           });
       });
-  </script>
-  
+    </script>
 </html>

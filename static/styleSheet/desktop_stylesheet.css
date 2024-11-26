@@ -201,7 +201,7 @@
   grid-column: 1 / 4;
   background-color: #333;
   color: #fff;
-  padding: 20px;
+  padding: 10px 20px 20px 20px;
   display: flex;
   flex-wrap: wrap; /* Allows the items to wrap on smaller screens if needed */
   justify-content: space-between; /* Space between the sections */
@@ -209,7 +209,8 @@
 
 .footer-section {
   flex: 1 1 30%; /* Each section will take up 30% of the container's width */
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  margin-top: 10px;
   padding: 10px;
 }
 

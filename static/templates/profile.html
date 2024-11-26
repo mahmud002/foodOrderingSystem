@@ -56,8 +56,8 @@
                {% endfor %}
             </div>
             <h3>Table Urls</h3>
-            <div class="button-container">
-               <div id="qr-codes-container" class="button-container"></div>
+            <div class="button-container" id="qr-codes-container">
+               <!-- <div  class="button-container"></div> -->
 
                <script>
                   document.addEventListener('DOMContentLoaded', function () {
@@ -102,9 +102,7 @@
             </div>
 
          </div>
-         <footer class="footer">
-            {% include 'components/footer.html' %}
-        </footer>
+         {% include 'components/footer.html' %}
       </div>
 
       <script>

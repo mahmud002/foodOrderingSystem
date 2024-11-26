@@ -276,7 +276,12 @@ span {
   display: flex; /* Use flexbox to make the buttons display in a row */
   justify-content: space-between; /* Adjust the space between the buttons */
   margin-left: 30;
+  overflow-x:scroll ;
+  justify-content: flex-start;
 }
+/* .button-container dev{
+margin: 2px;
+} */
 .submit-button-accept {
   padding: 10px 10px; /* Adjust padding as needed */
   background-color:forestgreen; /* Button background color */
