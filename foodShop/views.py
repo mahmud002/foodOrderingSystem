@@ -161,13 +161,54 @@ def edit_profile(request):
 
 
 
-def resize_image(image_file, max_size=(800, 600)):
-    img = Image.open(image_file)
-    img.thumbnail(max_size)
-    img_io = BytesIO()
-    img.save(img_io, format='JPEG', quality=85)
-    img_io.seek(0)
-    return img_io
+# def resize_image(image_file, max_size=(800, 600)):
+#     img = Image.open(image_file)
+#     img.thumbnail(max_size)
+#     img_io = BytesIO()
+#     img.save(img_io, format='JPEG', quality=85)
+#     img_io.seek(0)
+#     return img_io
+
+def resize_image(image_file):
+    # image = Image.open(image_file)
+    # image = image.resize((200, 200))  # Adjust width and height as needed
+    # return image
+
+    image = Image.open(image_file)
+    
+    # Get the original image's aspect ratio
+    width, height = image.size
+   
+    # Desired max width and height based on CSS
+    desired_width = 500
+    desired_height = 370
+    
+    # Aspect ratio of the original image
+    aspect_ratio = width / height
+    
+    # Resize while maintaining aspect ratio
+    if aspect_ratio >= 1:  # Landscape or square image
+        # Resize width to 250px, height will scale proportionally
+        new_width = desired_width
+        new_height = int(desired_width / aspect_ratio)
+    else:  # Portrait image
+        # Resize height to 295px, width will scale proportionally
+        new_height = desired_height
+        new_width = int(desired_height * aspect_ratio)
+    
+    # Resize the image
+    resized_image = image.resize((new_width, new_height))
+    
+    # Now crop to desired dimensions (250px x 295px)
+    left = (new_width - desired_width) // 2
+    top = (new_height - desired_height) // 2
+    right = left + desired_width
+    bottom = top + desired_height
+    
+    cropped_image = resized_image.crop((left, top, right, bottom))
+    
+    return cropped_image
+
 def insert_food(request):
     if request.user.is_authenticated:
  
@@ -197,17 +238,20 @@ def insert_food(request):
 
             if form.is_valid():
                 # Resize the image before saving
+                # Resize and crop the uploaded image
                 resized_image = resize_image(form.cleaned_data['food_image'])
 
                 # Generate a unique filename for the resized image
-                unique_filename = "home/images/"+str(index)+"_"+str(form.cleaned_data['food_image']).replace(' ', '_')
+                unique_filename = f"home/images/{index}_{str(form.cleaned_data['food_image']).replace(' ', '_')}"
+
+                # Define the full file path for saving the image
+                full_path = os.path.join(settings.MEDIA_ROOT, unique_filename)
 
                 # Save the resized image to the file system
-                full_path = os.path.join(settings.MEDIA_ROOT, unique_filename)
                 with open(full_path, 'wb') as f:
-                    f.write(resized_image.read())
+                    resized_image.save(f, format='JPEG')  # Saving as JPEG, you can choose another format if necessary
 
-                # Save the URL of the resized image in your Profile object
+                # Prepare data to store in the profile
                 new_object = {
                     'index': index,
                     'food_title': str(form.cleaned_data['food_title']),
@@ -217,11 +261,16 @@ def insert_food(request):
                     'food_image': unique_filename  # Store the URL here
                 }
 
+                # Append the new object to the data list
+                data = pi.food_list if pi.food_list else []
                 data.append(new_object)
+
+                # Save the updated food list back to the profile
                 pi.food_list = data
                 pi.save()
-               
-            return redirect('profile')
+
+                # Redirect to the profile page
+                return redirect('profile')
         
         return render(request,'food_form.html',context)
     else:
@@ -231,6 +280,8 @@ def find_dictionary_by_data(dictionary_list, key, value):
         if dictionary.get(key) == value:
             return dictionary
     return None
+# Resize the image (adjust the size as needed)
+
 def update_food(request):
     if request.user.is_authenticated:
         
@@ -241,9 +292,11 @@ def update_food(request):
 
             if request.POST.get('form_type') == 'identifire':
                 product_id=request.POST['product_id']
+                print(product_id)
+                print("_____________________________________________")
                 food_list=pk.food_list
                 
-                food=find_dictionary_by_data(food_list, "food_title", product_id)
+                food=find_dictionary_by_data(food_list, "index", int(product_id))
                 
                 py_food.index=food['index']
                 py_food.food_title=food['food_title']
@@ -269,8 +322,6 @@ def update_food(request):
                 form=FoodForm(request.POST, request.FILES, instance=py_food)
                 if form.is_valid():                    
                     food_list=pk.food_list
-
-             
                     food=None
                     index=form.cleaned_data['index']
 
@@ -286,25 +337,61 @@ def update_food(request):
 
     
                     clear=form.cleaned_data['pre_food_image']
-                    if clear == form.cleaned_data['food_image']:
+                    if form.cleaned_data['food_image']==None:
                     #     default_storage.delete(food['food_image'])
                     #     food['food_image']=""
                     # elif not form.cleaned_data['food_image'] :
-                        food['food_image']=food['food_image']
+                        food['food_image']=clear
                         print("Working______________________")
                     
                     else:
                         default_storage.delete(clear)
-                        resized_image = resize_image(form.cleaned_data['food_image'])
+                        # resized_image = resize_image(form.cleaned_data['food_image'])
 
-                        # Generate a unique filename for the resized image
-                        unique_filename = "home/images/"+str(food['index'])+"_"+str(form.cleaned_data['food_image']).replace(' ', '_')
+                        # # Generate a unique filename for the resized image
+                        # unique_filename = "home/images/"+str(food['index'])+"_"+str(form.cleaned_data['food_image']).replace(' ', '_')
+
+                        # # Save the resized image to the file system
+                        # full_path = os.path.join(settings.MEDIA_ROOT, unique_filename)
+                        # with open(full_path, 'wb') as f:
+                        #     f.write(resized_image.read()) 
+                        # food['food_image']=unique_filename
+
+
+                        # Your form.cleaned_data logic
+                        uploaded_image = form.cleaned_data['food_image']
+
+                        # Generate a unique filename
+                        # Get the file extension from the uploaded image
+                        file_extension = uploaded_image.name.split('.')[-1].lower()
+
+                        # Ensure the file has a valid extension (can add more if necessary)
+                        valid_extensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff']
+                        if file_extension not in valid_extensions:
+                            raise ValueError("Invalid image format")
+
+                        # Generate a unique filename using the extension
+                        unique_filename = f"home/images/{food['index']}_{uploaded_image.name.replace(' ', '_')}"
 
                         # Save the resized image to the file system
                         full_path = os.path.join(settings.MEDIA_ROOT, unique_filename)
-                        with open(full_path, 'wb') as f:
-                            f.write(resized_image.read()) 
-                        food['food_image']=unique_filename
+
+                        # Resize the image
+                        resized_image = resize_image(uploaded_image)
+
+                        # Save the image with the correct extension
+                        resized_image.save(full_path)
+
+                        # Update food image path
+                        food['food_image'] = unique_filename
+
+
+
+
+
+
+
+
                         # full_path = os.path.join(settings.MEDIA_ROOT, food['food_image'])
                         # image_file = form.cleaned_data['food_image']
                         # image_data = image_file.read()

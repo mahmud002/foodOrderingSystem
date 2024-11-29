@@ -22,14 +22,14 @@
         <div class="form-container">
           <form class="form" action="/update_food" method="post">
               {% csrf_token %}
-              <input type="hidden" name="product_id" value="{{temp.food_title}}">
+              <input type="hidden" name="product_id" value="{{temp.index}}">
               <input type="hidden" name="form_type" value="identifire">
               <button type="submit" class="submit-button">Update Food</button>
           </form>
   
           <form class="form" action="/delete_food" method="post">
               {% csrf_token %}
-              <input type="hidden" name="product_id" value="{{temp.food_title}}">
+              <input type="hidden" name="product_id" value="{{temp.index}}">
               <input type="hidden" name="form_type" value="identifire">
               <button type="submit" class="submit-button_delete" onclick="return confirmDelete('{{temp.food_title}}')">Delete Food</button>
           </form>

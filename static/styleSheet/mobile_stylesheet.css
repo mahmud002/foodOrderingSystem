@@ -393,4 +393,112 @@
   overflow-x:scroll ;
   justify-content: flex-start;
 }
+
+
+
+
+.profile_grid_container{
+  display: grid;
+  grid-template-columns:  0% 50% 50% 0%;
+  background-color: white;
+  font-size: 15px;
+  margin-top: 0px;
+  
+}
+.profile_header{
+  grid-column: 1 / 5;
+  font-size: 20px;
+  color: #191970;
+}
+.button-container {
+  grid-column: 1 / 5;
+  margin-top: 30px;
+  gap: 10px; /* Add some space between buttons */
+
+}
+
+.profile_left_screen{
+  grid-column: 1 / 5;
+  font-size: 15px;
+  border-right: 2px solid black ;
+}
+/* Style the overall list */
+.button-list {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-wrap: wrap; /* Allows the items to wrap on smaller screens if needed */
+  justify-content: space-between; 
+}
+
+/* Style the individual list items */
+.button-list li {
+  margin-bottom: 10px;
+}
+
+/* Style the anchor elements as buttons */
+.profile_left_right_buttons {
+  display: inline-block;
+  padding: 10px 10px;
+  background-color: white;
+  color: black; /* Text color */
+  text-decoration: none; /* Remove underline */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.2s;
+  width: 140px;
+}
+
+/* Add hover effect */
+.profile_left_right_buttons:hover {
+  background-color: white; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Optional: Focus style for accessibility */
+.profile_left_right_buttons:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #80c7f7; /* Blue outline on focus */
+}
+
+.profile_body_content1{
+  grid-column: 2 / 3;
+  font-size: 15px;
+  background-color: white;
+  margin-left: 20px;
+}
+.profile_body_content2{
+  grid-column: 3 / 4;
+  font-size: 15px;
+  background-color: white;
+}
+.profile_right_screen{
+  grid-column: 4 / 5;
+  font-size: 15px;
+
+}
+.profile_body_content12{
+  grid-column: 2 / 4;
+  font-size: 15px;
+  margin-left: 20px;
+}
+.profile_food{
+  grid-column: 2 / 4;
+  font-size: 15px;
+  background-color: white;
+  text-align: center;
+}
+
+.logo_image {
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Set the desired height */
+  border-radius: 50%; /* Make it circular by setting the border-radius to 50% */
+  overflow: hidden; /* Hide any image overflow beyond the circular boundary */
+  margin: 10%;
+
+}
+
 /* Profile Close */
