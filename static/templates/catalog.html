@@ -27,7 +27,7 @@
           <!-- Cart items will be dynamically added here -->
         </ul>
         <p>Total: $0</p>
-        <input type="text" placeholder="Enter Your Phone Number" id="customer_phone_number" required>
+        <input type="text" placeholder="Enter a Valid Email Address" id="customer_phone_number" required>
         <input type="hidden" id="key" value="{{ key }}">
         <input type="hidden" id="table_no" value="{{ table_no }}">
         <button class="submit-order" onclick="return confirmDelete()">Submit order</button>
@@ -156,28 +156,7 @@
           console.error('Error:', error);
         });
 
-      // Check if Geolocation API is available
-      if ('geolocation' in navigator) {
-        // Request user's permission to access location
-        navigator.geolocation.getCurrentPosition(
-          function (position) {
-            // Callback function on successful retrieval of location
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-
-            // Use the latitude and longitude as needed
-            console.log('Latitude: ' + latitude);
-            console.log('Longitude: ' + longitude);
-          },
-          function (error) {
-            // Callback function on error
-            console.log('Error occurred. Error code: ' + error.code + '. Error message: ' + error.message);
-          }
-        );
-      } else {
-        // Geolocation API is not supported
-        console.log('Geolocation is not supported by this browser.');
-      }
+      
     });
 
     // Function to retrieve a specific cookie value

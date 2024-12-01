@@ -12,7 +12,7 @@ from django.shortcuts import render, get_object_or_404
 import json
 from django.http import JsonResponse
 from django.core.files.storage import default_storage
-from PIL import Image
+from PIL import Image, ImageOps
 from io import BytesIO
 from datetime import datetime, timedelta
 # Create your views here.
@@ -33,7 +33,10 @@ def profile(request):
                 food_items_by_category[category] = []
             food_items_by_category[category].append(food_item)
 
-        n=int(profile_data.number_of_table)
+        if profile_data.number_of_table is not None:
+            n = int(profile_data.number_of_table)
+        else:
+            n=0
         url_list=[]
         i=1
         while(i<=n):
@@ -170,44 +173,54 @@ def edit_profile(request):
 #     return img_io
 
 def resize_image(image_file):
-    # image = Image.open(image_file)
-    # image = image.resize((200, 200))  # Adjust width and height as needed
-    # return image
-
     image = Image.open(image_file)
     
-    # Get the original image's aspect ratio
-    width, height = image.size
-   
     # Desired max width and height based on CSS
     desired_width = 500
     desired_height = 370
     
-    # Aspect ratio of the original image
-    aspect_ratio = width / height
+    # Resize the image while maintaining its aspect ratio
+    image = ImageOps.fit(image, (desired_width, desired_height), method=0, bleed=0.0, centering=(0.5, 0.5))
     
-    # Resize while maintaining aspect ratio
-    if aspect_ratio >= 1:  # Landscape or square image
-        # Resize width to 250px, height will scale proportionally
-        new_width = desired_width
-        new_height = int(desired_width / aspect_ratio)
-    else:  # Portrait image
-        # Resize height to 295px, width will scale proportionally
-        new_height = desired_height
-        new_width = int(desired_height * aspect_ratio)
+    return image
+    # image = Image.open(image_file)
+    # image = image.resize((200, 200))  # Adjust width and height as needed
+    # return image
+
+    # image = Image.open(image_file)
     
-    # Resize the image
-    resized_image = image.resize((new_width, new_height))
+    # # Get the original image's aspect ratio
+    # width, height = image.size
+   
+    # # Desired max width and height based on CSS
+    # desired_width = 500
+    # desired_height = 370
     
-    # Now crop to desired dimensions (250px x 295px)
-    left = (new_width - desired_width) // 2
-    top = (new_height - desired_height) // 2
-    right = left + desired_width
-    bottom = top + desired_height
+    # # Aspect ratio of the original image
+    # aspect_ratio = width / height
     
-    cropped_image = resized_image.crop((left, top, right, bottom))
+    # # Resize while maintaining aspect ratio
+    # if aspect_ratio >= 1:  # Landscape or square image
+    #     # Resize width to 250px, height will scale proportionally
+    #     new_width = desired_width
+    #     new_height = int(desired_width / aspect_ratio)
+    # else:  # Portrait image
+    #     # Resize height to 295px, width will scale proportionally
+    #     new_height = desired_height
+    #     new_width = int(desired_height * aspect_ratio)
     
-    return cropped_image
+    # # Resize the image
+    # resized_image = image.resize((new_width, new_height))
+    
+    # # Now crop to desired dimensions (250px x 295px)
+    # left = (new_width - desired_width) // 2
+    # top = (new_height - desired_height) // 2
+    # right = left + desired_width
+    # bottom = top + desired_height
+    
+    # cropped_image = resized_image.crop((left, top, right, bottom))
+    
+    # return cropped_image
 
 def insert_food(request):
     if request.user.is_authenticated:
@@ -408,7 +421,7 @@ def delete_food(request):
         pk=Profile.objects.get(user=request.user)
         product_id=request.POST['product_id']
         food_list=pk.food_list
-        food=find_dictionary_by_data(food_list, "food_title", product_id)
+        food=find_dictionary_by_data(food_list, "index", int(product_id))
         
                     # Delete the previous image from storage
         default_storage.delete(food['food_image'])
