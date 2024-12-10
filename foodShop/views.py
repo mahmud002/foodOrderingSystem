@@ -15,6 +15,14 @@ from django.core.files.storage import default_storage
 from PIL import Image, ImageOps
 from io import BytesIO
 from datetime import datetime, timedelta
+
+import secrets
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
 # Create your views here.
 def index(request):
     
@@ -46,6 +54,9 @@ def profile(request):
         return render(request,'profile.html',{'profile_data':profile_data, 'url':url_list, 'order':order_request,'order_accepted':order_accepted,'food_items_by_category':food_items_by_category })
     else:
         return render(request,'login.html')
+
+    
+
 
 def order_list(request):
     if request.user.is_authenticated:
@@ -432,28 +443,35 @@ def delete_food(request):
     return redirect('profile')
 
 def catalog(request,key):
-    user = get_object_or_404(User, username=key)
-    food_list=Profile.objects.filter(user=user).values('food_list').first()['food_list']
-    
-    food_items_by_category = {}
-    for food_item in food_list:
-        category = food_item["category"]
+    if request.COOKIES.get('food_order_email'):
 
-        if category not in food_items_by_category:
-            food_items_by_category[category] = []
-        food_items_by_category[category].append(food_item)
-    
-    # If "Offer" is in the dictionary, move it to the front
-    if "Offer" in food_items_by_category:
-        offer_items = food_items_by_category.pop("Offer")
-        food_items_by_category = {"Offer": offer_items, **food_items_by_category}
+        user = get_object_or_404(User, username=key)
+        food_list=Profile.objects.filter(user=user).values('food_list').first()['food_list']
+        
+        food_items_by_category = {}
+        for food_item in food_list:
+            category = food_item["category"]
 
-    resturant_Name=Profile.objects.values('resturant_name').get(user=user)
-    
+            if category not in food_items_by_category:
+                food_items_by_category[category] = []
+            food_items_by_category[category].append(food_item)
+        
+        # If "Offer" is in the dictionary, move it to the front
+        if "Offer" in food_items_by_category:
+            offer_items = food_items_by_category.pop("Offer")
+            food_items_by_category = {"Offer": offer_items, **food_items_by_category}
 
-    table_no = request.GET.get('table')
+        resturant_Name=Profile.objects.values('resturant_name').get(user=user)
+        
 
-    return render(request,'catalog.html',{'food_items_by_category':food_items_by_category,'key':key,'resturantName':resturant_Name['resturant_name'],'table_no':table_no})
+        table_no = request.GET.get('table')
+        customer= request.COOKIES.get('food_order_email')
+        print(customer)
+        return render(request,'catalog.html',{'customer_email':customer,'food_items_by_category':food_items_by_category,'key':key,'resturantName':resturant_Name['resturant_name'],'table_no':table_no})
+    else:
+        next_url = request.get_full_path()
+        return redirect(f'/customer_login/?next={next_url}')
+     
 
 def accept_order (request):
     if request.method=='POST':
@@ -471,7 +489,7 @@ def submit_order(request):
         # key=get_object_or_404(User, username=data[0]['key'])
       
         user=User.objects.get(username=data['owner'])
-        new_order=Order(owner=user,food_list=data['cartItems'],table_no=data['table_no'],customer_phone_number=data['phone'],status="not_taken",total=data['total'],created_at=datetime.now())
+        new_order=Order(owner=user,food_list=data['cartItems'],table_no=data['table_no'],email=data['phone'],status="not_taken",total=data['total'],created_at=datetime.now())
         
  
        
@@ -552,7 +570,6 @@ def signup (request):
     else:
         form=UserCreationForm()
     return render (request,'singup.html',{'form': form})
-
 def update_password (request):
     if request.method == 'POST':
         username_to_update = request.POST['username']  # Get the username from the form
@@ -571,3 +588,101 @@ def update_password (request):
         return redirect('profile')  # Redirect to a success view or page
 
     return render(request, 'update_password_form.html')  # Render the password update form
+
+def customer_logout(request):
+    response = redirect('customer_login')  # Redirect to the login page after logging out
+    
+    # Optionally, you can delete a custom cookie
+    response.delete_cookie('food_order_email')  # Delete the cookie if you set one earlier
+    
+    return response
+
+def customer_signup(request):
+    next_url = "" 
+    otp = ''.join([str(secrets.randbelow(10)) for _ in range(4)])  # Generate a 4-digit OTP
+
+    # Capture 'next' URL from GET parameters
+    if request.GET.get("next"):
+        next_url = request.GET.get('next')
+
+    # Capture email and password if present in GET parameters
+    if request.GET.get("email"):
+        email = request.GET.get('email')
+    if request.GET.get("info"):
+        password = request.GET.get('info')
+
+    if request.method == 'POST':
+        # Handle the submitted OTP from the user
+        submited_otp = request.POST.get('otp')
+        email = request.POST.get('info1')
+        password = request.POST.get('info2')
+
+        # Check if the submitted OTP matches the one stored in the session
+        stored_otp = request.session.get('otp')  # Retrieve OTP from session
+
+        if stored_otp and submited_otp == stored_otp:
+            # OTP is valid, create the customer
+            customer = Customer(email=email, password=password)
+            customer.save()
+
+            # Redirect to the 'next' page (or home)
+            response = redirect(next_url if next_url else 'order_status')
+            # Set a cookie with the email (valid for 7 days)
+            response.set_cookie('food_order_email', email, max_age=3600*24*7)
+            return response
+        else:
+            # If OTP doesn't match, show an error message
+            error_message = "Invalid OTP. Please try again."
+            return render(request, 'customer_signup.html', {'next': next_url, 'info1': email, 'info2': password, 'error_message': error_message})
+
+    try:
+        # Send OTP email to the customer
+        subject = 'OTP for Food Order System'
+        message = f'Your OTP is: {otp}'
+        recipient_list = [email]  # Send OTP to the email entered
+        send_mail(subject, message, 'mahmud0132@gmail.com', recipient_list)
+
+        # Store OTP in session for verification
+        request.session['otp'] = otp
+
+    except Exception as e:
+        # Handle email sending failure (optional)
+        print(f"Error sending OTP: {e}")
+        error_message = "Error sending OTP. Please try again later."
+        return render(request, 'customer_signup.html', {'next': next_url, 'info1': email, 'info2': password, 'error_message': error_message})
+
+    return render(request, 'customer_signup.html', {'next': next_url, 'info1': email, 'info2': password})
+
+def customer_login(request):
+    next_url = "" 
+    if request.GET.get("next"):
+        next_url=request.GET.get('next')
+        
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        if Customer.objects.filter(email=email, password=password).exists():
+            #response = HttpResponse("Login successful")
+            #response.set_cookie('food_order_email', email, max_age=60*60*24*7)  # Setting the cookie correctly
+             # Get the 'next' URL if provided
+                       # Set a cookie (example: 'logged_in' cookie)
+            if next_url:
+                response = redirect(next_url)  # Redirect to 'home' or another page after login
+                
+                # Set a cookie (it will expire in 1 hour, for example)
+                response.set_cookie('food_order_email', email, max_age=360*60*24*7)
+                print("Working______________________________________")
+                return response
+            else:
+                response = redirect('order_status')  # Redirect to 'home' or another page after login
+                
+                # Set a cookie (it will expire in 1 hour, for example)
+                response.set_cookie('food_order_email', email, max_age=360*60*24*7)
+                print("Working______________________________________")
+                return response                
+           # Optionally, redirect to a default view if no 'next' URL is provided
+        else:
+            print(next_url)
+            print("GOing Signup________________________________")
+            return redirect(f'/customer_signup/?next={next_url}&email={email}&info={password}')
+    return render(request, 'customer_login.html',{'next':next_url})

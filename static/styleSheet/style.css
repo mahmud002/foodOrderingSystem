@@ -295,3 +295,9 @@ span {
   cursor: pointer; /* Change cursor on hover */
   border: none;
 }
+
+.verify-email {
+  display: block; /* Make the button behave as a block element */
+  margin-left: auto; /* Push the button to the right */
+  margin-right: 0;  /* Ensure it aligns fully to the right */
+}

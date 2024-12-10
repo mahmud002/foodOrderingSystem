@@ -13,6 +13,17 @@ class ProfileForm(ModelForm):
         if logo_image_clear:
             return None  # Return None to clear the image
         return self.cleaned_data.get('logo_image')
+class CustomerForm(forms.ModelForm):
+    email = forms.EmailField(max_length=254, required=False)  # You can make this required if needed
+    password = forms.CharField(
+        widget=forms.PasswordInput(),  # Renders the input as a password field
+        max_length=128,  # Ensure the max length matches the model field
+        required=True  # Password should be required
+    )
+
+    class Meta:
+        model = Customer
+        fields = ['email', 'password']
 class FoodForm(forms.ModelForm):
     clear_image_url = forms.BooleanField(required=False)
     pre_food_image=forms.CharField(max_length=255, required=False, label='pre_food_image')

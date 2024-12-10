@@ -49,8 +49,11 @@ class Order(models.Model):
     food_list=models.JSONField(default=list)
     table_no=models.CharField(max_length=255, null=True, blank=True)
     status=models.CharField(max_length=255, null=True, blank=True)
-    customer_phone_number=models.CharField(max_length=255, null=True, blank=False)
+    email=models.EmailField(max_length=254,null=True, blank=True)
     total=models.CharField(max_length=255, null=True, blank=False)
     created_at=models.DateTimeField(null=True) 
 
-        
+class Customer(models.Model):
+    email = models.EmailField(max_length=254, null=True, blank=True)
+    password = models.CharField(max_length=128) 
+    

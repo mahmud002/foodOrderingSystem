@@ -50,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = "foodOrder.urls"
@@ -141,3 +142,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"static")
 ]
+
+
+
+#for email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Gmail SMTP server settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  # For TLS
+EMAIL_USE_TLS = True
+
+# Login credentials (use environment variables for security)
+EMAIL_HOST_USER = 'mahmudhasan0132@gmail.com'  # your Gmail address
+EMAIL_HOST_PASSWORD = 'wzkx ofgs hoop acli'  # your Gmail password (use app-specific password if 2FA is enabled)
+
+# Default from email
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

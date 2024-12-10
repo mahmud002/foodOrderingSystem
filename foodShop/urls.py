@@ -21,4 +21,11 @@ urlpatterns = [
     path("accept_order",views.accept_order, name='accept_order'),
     path("reject_order",views.reject_order, name='reject_order'),
     path("order_status",views.order_status, name='order_status'),
+    # path('verify_email', views.verify_email, name='verify_email'),
+    path('customer_login/', views.customer_login, name='customer_login'),
+    path('customer_logout', views.customer_logout, name='customer_logout'),
+    path('customer_signup/', views.customer_signup, name='customer_signup'),
+    #path('/customer_login/customer_login', views.customer_login, name='customer_login'),
+    
+    
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

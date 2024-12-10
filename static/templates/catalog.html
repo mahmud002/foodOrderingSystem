@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="/static/styleSheet/mobile_stylesheet.css" media="screen and (max-width: 768px)">
   <link rel="stylesheet" href="/static/styleSheet/desktop_stylesheet.css" media="screen and (min-width: 800px)">  
   <link rel="stylesheet" href="/static/styleSheet/style.css">
+  
 </head>
 
 <body>
@@ -27,7 +28,11 @@
           <!-- Cart items will be dynamically added here -->
         </ul>
         <p>Total: $0</p>
-        <input type="text" placeholder="Enter a Valid Email Address" id="customer_phone_number" required>
+
+        <input type="hidden"  id="customer_phone_number" value="{{customer_email}}">
+        <!-- <button class="verify-email" onclick="verifyEmail()">Verify Email</button> -->
+
+
         <input type="hidden" id="key" value="{{ key }}">
         <input type="hidden" id="table_no" value="{{ table_no }}">
         <button class="submit-order" onclick="return confirmDelete()">Submit order</button>
@@ -191,6 +196,47 @@
       document.getElementById("fab").style.height = width + "px";
       totalDOM.textContent = `Total: $${total}`;
     }
+
+
+
+
+
+
+
+     // Function to handle email verification
+  function verifyEmail() {
+    const email = document.getElementById('customer_phone_number').value;
+    if (!email) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Send AJAX request to the backend to verify the email
+    const csrftoken = getCookie('csrftoken');
+    fetch('/verify_email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify({ email: email }),
+    })
+    .then(response => response.json())
+    .then(data => {
+
+      
+      if (data.valid==true){
+        console.log("True");
+      }
+      else if (data.otp!=null){
+        console.log(data.otp);
+      }
+    })
+    .catch(error => {
+      console.error("Error during email verification:", error);
+      alert("An error occurred while verifying the email.");
+    });
+  }
 
   </script>
 
